@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'mvn compile jib:build'
+                sh './mvnw compile jib:build -s .pipeline/maven_setting.xml'
             }
         }
     }
