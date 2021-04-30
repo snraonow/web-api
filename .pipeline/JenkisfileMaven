@@ -6,8 +6,8 @@ pipeline {
     }
     stages {
         stage ('Initialize') {
-            snDevOpsStep()
             steps {
+                snDevOpsStep()            
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
