@@ -18,6 +18,7 @@ pipeline {
         
         stage ('Test') {
             steps {
+            snDevOpsStep()       
               sh '''
                 echo 'mvn verify'
                 mvn verify
@@ -27,6 +28,7 @@ pipeline {
 
         stage ('Build') {
             steps {
+            snDevOpsStep()       
               sh '''
                 echo 'mvn build stage'
                 mvn clean install
