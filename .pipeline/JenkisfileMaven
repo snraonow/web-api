@@ -6,6 +6,7 @@ pipeline {
     }
     stages {
         stage ('Initialize') {
+            snDevOpsStep()
             steps {
                 sh '''
                     echo "PATH = ${PATH}"
