@@ -1,0 +1,173 @@
+{
+    "DevOpsChangeFour": {
+"components": {
+      "vars": {
+        "paymentService": {
+          "database": {
+            "dbName": "paymentX_dev2",
+            "dbUserName": "root",
+            "dbPassword": "admin123",
+            "dbServer": "db22.paymentx.be",
+            "dbPort":"8050",
+            "dbIpAddress": "10.20.40.50",
+            "backup": {
+              "dbServer": "db23.paymentx.be"
+            }
+          }
+        },
+        "applicationSLA": "24x7"
+      },
+      "paymentService-V1.0": {
+        "settings": {
+            "paypal": "disabled",
+            "applePay": "disabled",
+            "ogone": "enabled", 
+            "merchantId": "10334",
+            "paymentMethods": "1,3,5,6",
+            "allowed.billing.countries": "74,76,88,136,139,176,197",
+            "creditcards.cacf.type.ids": "43,44,45,46",
+            "creditcards.oney.type.ids": "33,34,35,36",
+            "included.availabilityids": "99,199",
+            "included.availabilityids.cacf": "1,20,99,120,199",
+            "included.warrantiestypeids.cacf": "19002,19005,19006,19009,19010,19011,19014,19016",
+            "dbIPAddress":"@@paymentService/database/dbIpAddress@@",
+            "dbPort":"@@paymentService/database/dbPort@@",
+            "dbConnectionString": "@@paymentService/database/dbUserName@@:@@paymentService/database/dbPassword@@ @@paymentService/database/dbServer@@:@@paymentService/database/dbPort@@ @@paymentService/database/dbName@@", 
+            "dbConnectionStringBackup": "@@paymentService/database/dbUserName@@:@@paymentService/database/dbPassword@@ @@paymentService/database/backup/dbServer@@ @@paymentService/database/dbName@@"
+        },
+        "featureToggles": {
+            "paymentRefund": "enabled",
+            "myPreferredPaymentMethods": "enabled",
+            "invoicePrinting": "disabled",
+            "payOnDelivery": "disabled",
+            "payByVoucher": "enabled"
+        }
+      },
+      "paymentService-V1.1": {
+        "settings": {
+            "paypal": "enabled",
+            "applePay": "disabled",
+            "ogone": "enabled", 
+            "merchantId": "10334",
+            "paymentMethods": "1,3,5,6",
+            "allowed.billing.countries": "74,76,88,136,139,176,197",
+            "creditcards.cacf.type.ids": "43,44,45,46,48,49,50",
+            "creditcards.oney.type.ids": "33,34,35",
+            "included.availabilityids": "999",
+            "included.warrantiestypeids.cacf": "19002,19005,19006,19009,19010,19011,19014,19016",
+            "dbIPAddress":"@@paymentService/database/dbIpAddress@@",
+            "dbPort":"@@paymentService/database/dbPort@@",
+            "dbConnectionString": "@@paymentService/database/dbUserName@@:@@paymentService/database/dbPassword@@ @@paymentService/database/dbServer@@:@@paymentService/database/dbPort@@ @@paymentService/database/dbName@@", 
+            "dbConnectionStringBackup": "@@paymentService/database/dbUserName@@:@@paymentService/database/dbPassword@@ @@paymentService/database/backup/dbServer@@ @@paymentService/database/dbName@@"
+        },
+        "featureToggles": {
+            "paymentRefund": "enabled",
+            "myPreferredPaymentMethods": "enabled",
+            "invoicePrinting": "enabled",
+            "payOnDelivery": "disabled",
+            "payByVoucher": "enabled"
+        }
+      },
+      "logonService-V2.1":{
+      	"googleApiKey": "hfjdqjfoqnlqcjoiqjnclvkqslkdn,qkls12"
+      },
+      "logonService-V2.2":{
+      	"googleApiKey": "hfjdqjfoqnlqcjoiqjnclvkqslkdn,qkls12",
+      	"logonv22": "true"
+      }
+    },
+    "collections": {
+      "release-1.0": {
+      	"paymentService-V1.0": {
+	        "featureToggles": {
+	          "paymentRefund": "disabled",
+	          "myPreferredPaymentMethods": "enabled"
+	        }
+	    }      	
+      },
+      "release-1.5": {
+      	"paymentService-V1.1": {
+	        "featureToggles": {
+	          "paymentRefund": "enabled",
+	          "myPreferredPaymentMethods": "enabled"
+	        }
+	    } 
+      }
+    },
+    "deployables": {
+      "PRD": {
+        "vars": {
+          "paymentService": {
+            "database": {
+              "dbName": "paymentX_PRD",
+              "dbUserName": "root1",
+              "dbPassword": "admin456",
+              "dbServer": "db22.paymentPRDx.be",
+              "dbPort":"8080",
+              "dbIpAddress": "10.20.40.80",  
+              "backup": {
+                "dbServer": "db22.paymentPRDx.be"
+              }
+            }
+          }
+        },
+        "release-1.0": {
+        	"paymentService-V1.0":{
+	            "featureToggles": {
+	                "paymentRefund": "disabled",
+	                "myPreferredPaymentMethods": "disabled"
+	            }
+	        }
+        }
+      },
+      "TST-1": {
+        "vars": {
+          "paymentService": {
+            "database": {
+              "dbName": "paymentX_TST1",
+              "dbUserName": "rootTST1",
+              "dbPassword": "admin789",
+              "dbServer": "db22.paymentTST1.be",
+              "dbPort":"8060",
+              "dbIpAddress": "10.20.40.60",  
+              "backup": {
+                "dbServer": "db23.paymentTST1.be"
+              }
+            }
+          }
+        },
+        "release-1.0": {
+          "featureToggles": {
+            "paymentRefund": "disabled",
+            "myPreferredPaymentMethods": "enabled"
+          }
+        }
+      },
+      "TST-2": {
+        "vars": {
+          "paymentService": {
+            "database": {
+              "dbName": "paymentX_TST2",
+              "dbUserName": "rootTST2",
+              "dbPassword": "admin789abc",
+              "dbServer": "db22.paymentTST2.be",
+              "dbPort":"8070",
+              "dbIpAddress": "10.20.40.70",  
+              "backup": {
+                "dbServer": "db23.paymentTST2.be"
+              }
+            }
+          }
+        },
+        "release-1.5": {
+          "featureToggles": {
+            "paymentRefund": "enabled",
+            "myPreferredPaymentMethods": "enabled"
+          }
+        }
+      }
+    }
+  }  
+}
+
+
