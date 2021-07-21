@@ -2,7 +2,7 @@ def buildNumber = "${env.BUILD_NUMBER}"
 pipeline {
  agent any
  tools {
-    	maven 'Maven'
+    	maven 'maven'
  }
  stages {
   stage("Checkout"){
