@@ -29,6 +29,6 @@ public class DevOpsControllerTest {
 		applicationsList.add(Applications.builder().fUUID(UUID.randomUUID()).name("app1").build());
 		when(fApplicationService.getApplications()).thenReturn(applicationsList);
 		List<Applications> resultApps = fDevOpsController.getDevOpsApplication();
-		assertThat(resultApps.size()).isEqualTo(0);
+		assertThat(resultApps.size()).isEqualTo(1);
 	}
 }
