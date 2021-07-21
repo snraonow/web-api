@@ -6,8 +6,10 @@ pipeline {
  }
  stages {
   stage("Checkout"){
+
    agent any
    steps{
+     snDevOpsStep()
      checkout scm
    }
   }
