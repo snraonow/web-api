@@ -26,16 +26,10 @@ pipeline {
 	stage('Deploy'){
      agent any
      steps{
-       echo "Deploying"
+
   		snDevOpsChange()
+  		echo "Started Deploying"
      }
     }
-  stage('Deploy'){
-   agent any
-   steps{
-     echo "Deploying"
-		snDevOpsChange()
-   }
-  }
  }
 }
