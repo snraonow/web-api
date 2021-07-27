@@ -1,0 +1,41 @@
+def buildNumber = "${env.BUILD_NUMBER}"
+pipeline {
+ agent any
+ tools {
+    	maven 'maven'
+ }
+ stages {
+  stage("Checkout"){
+
+   agent any
+   steps{
+     snDevOpsStep()
+     checkout scm
+     sh 'mvn clean install'
+
+   }
+  }
+  
+  stage("Tests") {
+   agent any
+   steps {
+    sh 'mvn clean verify'
+
+   }
+  }
+	stage('Deploy'){
+     agent any
+     steps{
+       echo "Deploying"
+  		snDevOpsChange()
+     }
+    }
+  stage('Deploy'){
+   agent any
+   steps{
+     echo "Deploying"
+		snDevOpsChange()
+   }
+  }
+ }
+}
