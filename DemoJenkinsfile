@@ -1,5 +1,5 @@
 def buildNumber = "${env.BUILD_NUMBER}"
-pipeline {
+node {
 
        def appName='Payment Fulfillment Service'
        def snapName=''
