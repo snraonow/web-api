@@ -35,12 +35,12 @@ node {
 
                   // snDevOpsStep()
             checkout scm
-            sh 'mvn clean install'
+            // sh 'mvn clean install'
       }
       
       stage("Tests") {
             // agent any
-            sh 'mvn clean verify'
+            // sh 'mvn clean verify'
 
       }
 
