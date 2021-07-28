@@ -43,12 +43,13 @@ pipeline {
                   }
             }
             
-                  stage("Tests") {
+            stage("Tests") {
                   agent any
                   steps {
                   sh 'mvn clean verify'
 
                   }
+            }
 
 		stage('Upload Configuration Files'){
 
