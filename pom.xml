@@ -68,17 +68,17 @@
 				<version>3.1.2</version>
 				<configuration>
 					<to>
-						<image>docker.io/santoshnrao/demo-devops-app:${maven.build.timestamp}</image>
+						<image>docker.io/sannrao/demo-devops-app:${maven.build.timestamp}</image>
 					</to>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>build</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
