@@ -19,7 +19,7 @@ node {
        def fileNamePrefix ='exported_file_'
        def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
        def changeSetId=""
-       def componentName="paymentService-v1.1"
+       def componentName="devops-config-demo-web-app-v1.1"
        def collectionName="release-1.0"
        def snapshotName=""
        def exporterName ='k8s-exporter'
