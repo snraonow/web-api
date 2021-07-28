@@ -13,7 +13,7 @@ node {
        // Yaml Example
        if(setYamlUpload){
              exportFormat ='yaml'
-             configFilePath = "k8s/demo-training-studio/values"
+             configFilePath = "k8s/helm/values"
        }
 
        def fileNamePrefix ='exported_file_'
