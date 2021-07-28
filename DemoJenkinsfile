@@ -31,93 +31,91 @@ node {
       // tools {
       //       maven 'maven'
       // }
-      stages {
-            stage("Checkout and build"){
+      stage("Checkout and build"){
 
-                  // agent any
-                  steps{
-                        snDevOpsStep()
-                        checkout scm
-                        sh 'mvn clean install'
+            // agent any
+            steps{
+                  snDevOpsStep()
+                  checkout scm
+                  sh 'mvn clean install'
 
+            }
+      }
+      
+      stage("Tests") {
+            // agent any
+            steps {
+            sh 'mvn clean verify'
+
+            }
+      }
+
+      stage('Upload Configuration Files'){
+
+
+            sh "echo validating configuration file ${configFilePath}.${exportFormat}"
+            changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", fileName:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
+
+            echo "validation result $changeSetId"
+
+            echo "Change set registration for ${changeSetId}"
+            changeSetRegResult = snDevOpsConfigRegisterChangeSet(changesetId:"${changeSetId}")
+            echo "change set registration set result ${changeSetRegResult}"
+
+      }
+
+
+      stage("Get snapshot status"){
+
+            echo "Triggering Get snapshots for applicationName:${appName},deployableName:${deployableName},changeSetId:${changeSetId}"
+
+            changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
+            echo "ChangeSet Result : ${changeSetResults}"
+
+            def changeSetResultsObject = readJSON text: changeSetResults
+
+            changeSetResultsObject.each {
+
+                  if(it.validation == "passed"){
+                        echo "validation passed for snapshot : ${it.name}"
+                        snapshotName = it.name
+                  }else{
+                        echo "Snapshot failed to get validated : ${it.name}" ;
+                        assert it.validation == "passed"
                   }
-            }
-            
-            stage("Tests") {
-                  // agent any
-                  steps {
-                  sh 'mvn clean verify'
-
-                  }
-            }
-
-		stage('Upload Configuration Files'){
-
-
-                  sh "echo validating configuration file ${configFilePath}.${exportFormat}"
-                  changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", fileName:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
-
-                  echo "validation result $changeSetId"
-
-                  echo "Change set registration for ${changeSetId}"
-                  changeSetRegResult = snDevOpsConfigRegisterChangeSet(changesetId:"${changeSetId}")
-                  echo "change set registration set result ${changeSetRegResult}"
 
             }
-
-
-            stage("Get snapshot status"){
-
-                  echo "Triggering Get snapshots for applicationName:${appName},deployableName:${deployableName},changeSetId:${changeSetId}"
-
-                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
-                  echo "ChangeSet Result : ${changeSetResults}"
-
-                  def changeSetResultsObject = readJSON text: changeSetResults
-
-                  changeSetResultsObject.each {
-
-                        if(it.validation == "passed"){
-                              echo "validation passed for snapshot : ${it.name}"
-                              snapshotName = it.name
-                        }else{
-                              echo "Snapshot failed to get validated : ${it.name}" ;
-                              assert it.validation == "passed"
-                        }
-
-                  }
-                  if (!snapshotName?.trim()){
-                        error "No valid snapshot found to proceed" ;
-                  }
-                  echo "Snapshot Name : ${snapshotName} "
-
+            if (!snapshotName?.trim()){
+                  error "No valid snapshot found to proceed" ;
             }
+            echo "Snapshot Name : ${snapshotName} "
 
-            stage('Publish the snapshot'){
-                  echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
-                  publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
-                  echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
-            }
+      }
 
-            stage('Export Snapshots from Service Now') {
+      stage('Publish the snapshot'){
+            echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
+            publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
+            echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
+      }
 
-                  echo "Devops Change trigger change request"
+      stage('Export Snapshots from Service Now') {
+
+            echo "Devops Change trigger change request"
+            snDevOpsChange()
+
+            echo "Exporting for App: ${appName} Deployable; ${deployableName} Exporter name ${exporterName} "
+            echo "Configfile exporter file name ${fullFileName}"
+            sh  'echo "<<<<<<<<<export file is starting >>>>>>>>"'
+            response = snDevOpsConfigExport(applicationName: "${appName}", snapshotName: "${snapName}", deployableName: "${deployableName}",exporterFormat: "${exportFormat}", fileName:"${fullFileName}", exporterName: "${exporterName}", exporterArgs: "${exporterArgs}")
+            echo " RESPONSE FROM EXPORT : ${response}"
+
+      }
+      stage('Deploy'){
+
+            steps{
+
                   snDevOpsChange()
-
-                  echo "Exporting for App: ${appName} Deployable; ${deployableName} Exporter name ${exporterName} "
-                  echo "Configfile exporter file name ${fullFileName}"
-                  sh  'echo "<<<<<<<<<export file is starting >>>>>>>>"'
-                  response = snDevOpsConfigExport(applicationName: "${appName}", snapshotName: "${snapName}", deployableName: "${deployableName}",exporterFormat: "${exportFormat}", fileName:"${fullFileName}", exporterName: "${exporterName}", exporterArgs: "${exporterArgs}")
-                  echo " RESPONSE FROM EXPORT : ${response}"
-
-            }
-            stage('Deploy'){
-                  agent any
-                  steps{
-
-                        snDevOpsChange()
-                        echo "Started Deploying"
-                  }
+                  echo "Started Deploying"
             }
       }
 }
