@@ -27,14 +27,14 @@ node {
        def dockerImageName = "sannrao/web-api"
        def dockerImageTag=""
 
-      agent any
+      // agent any
       tools {
             maven 'maven'
       }
       stages {
             stage("Checkout and build"){
 
-                  agent any
+                  // agent any
                   steps{
                         snDevOpsStep()
                         checkout scm
@@ -44,7 +44,7 @@ node {
             }
             
             stage("Tests") {
-                  agent any
+                  // agent any
                   steps {
                   sh 'mvn clean verify'
 
