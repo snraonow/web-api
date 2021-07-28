@@ -28,9 +28,9 @@ node {
        def dockerImageTag=""
 
       // agent any
-      tools {
-            maven 'maven'
-      }
+      // tools {
+      //       maven 'maven'
+      // }
       stages {
             stage("Checkout and build"){
 
