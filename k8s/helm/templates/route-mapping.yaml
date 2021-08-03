@@ -1,10 +1,10 @@
 apiVersion: getambassador.io/v2
 kind:  Mapping
 metadata:
-  name:  {{ include "demo-training-studio.fullname" . }}
+  name:  {{ include "demo-devops-webapp.fullname" . }}
   labels:
-    {{- include "demo-training-studio.labels" . | nindent 4 }}
+    {{- include "demo-devops-webapp.labels" . | nindent 4 }}
 spec:
   prefix: "{{.Values.routing.path}}"
-  service: {{ include "demo-training-studio.fullname" . }}:{{ .Values.service.port}}
+  service: {{ include "demo-devops-webapp.fullname" . }}.default.svc.cluster.local:{{ .Values.service.port}}
   host: "{{.Values.routing.host}}"

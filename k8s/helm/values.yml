@@ -3,11 +3,11 @@ replicaCount: 2
 mongo:
   dbport : 27018
   dbUrl: "https://awesome.uswest1.training-studio..mongodb"
-  dbUserName : "@@dbUserName@@"
-  dbPassword : "@@dbPassword@@"
+  dbUserName : "dbUserName"
+  dbPassword : "dbPassword"
 
 image:
-  repository: sannrao/web-api
+  repository: sannrao/demo-devops-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -42,12 +42,12 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
   
 routing:
   enabled: true 
   host: k8s.sndevops.xyz
-  path: /web-api
+  path: /web-app
 
 
 ingress:
@@ -59,7 +59,7 @@ ingress:
   hosts:
     - host: k8s.sndevops.xyz
       paths:
-        - path: /web-api
+        - path: /demo-devops-webapp
           pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls

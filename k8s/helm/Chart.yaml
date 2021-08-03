@@ -1,5 +1,5 @@
 apiVersion: v2
-name: web-api
+name: demo-devops-app
 description: Sample Web-API to demonstrate DevOps Product
 
 # A chart can be either an 'application' or a 'library' chart.
