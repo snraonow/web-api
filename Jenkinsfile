@@ -7,12 +7,13 @@ pipeline {
  }
  stages {
   stage("Checkout"){
-  if( ${ENABLE_SN_DEVOPS}  == true ){
-     isSnDevopsEnabled = true
-   }
 
-   agent any
+      agent any
    steps{
+       if( ${ENABLE_SN_DEVOPS}  == true ){
+        isSnDevopsEnabled = true
+      }
+
      checkout scm
 
    }
