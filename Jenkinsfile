@@ -1,8 +1,5 @@
 def buildNumber = "${env.BUILD_NUMBER}"
 def isSnDevopsEnabled = false
-if( ${ENABLE_SN_DEVOPS}  == true ){
- isSnDevopsEnabled = true
-}
 pipeline {
  agent any
  tools {
@@ -10,6 +7,9 @@ pipeline {
  }
  stages {
   stage("Checkout"){
+  if( ${ENABLE_SN_DEVOPS}  == true ){
+     isSnDevopsEnabled = true
+   }
 
    agent any
    steps{
