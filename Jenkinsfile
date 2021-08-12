@@ -1,6 +1,6 @@
 def buildNumber = "${env.BUILD_NUMBER}"
 def isSnDevopsEnabled = false
-if( $ENABLE_SN_DEVOPS  == true ){
+if( ${ENABLE_SN_DEVOPS}  == true ){
  isSnDevopsEnabled = true
 }
 pipeline {
