@@ -1,4 +1,8 @@
 def buildNumber = "${env.BUILD_NUMBER}"
+def isSnDevopsEnabled = false
+if( $ENABLE_SN_DEVOPS  == true ){
+ isSnDevopsEnabled = true
+}
 pipeline {
  agent any
  tools {
@@ -9,7 +13,6 @@ pipeline {
 
    agent any
    steps{
-     snDevOpsStep()
      checkout scm
 
    }
