@@ -10,9 +10,11 @@ pipeline {
 
       agent any
    steps{
+    script {
        if( ${ENABLE_SN_DEVOPS}  == true ){
         isSnDevopsEnabled = true
       }
+    }
 
      checkout scm
 
