@@ -1,7 +1,7 @@
 node {    
 
       def app     
-      def appName='PaymentDemo'
+      def appName='devops-demo-web-app'
       def snapName=''
       def deployableName = 'PROD-US'
       def setYamlUpload = true
@@ -13,18 +13,18 @@ node {
       // Yaml Example
       if(setYamlUpload){
             exportFormat ='yaml'
-            configFilePath = "k8s/demo-training-studio/values"
+            configFilePath = "k8s/helm/values"
       }
 
       def fileNamePrefix ='exported_file_'
       def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
       def changeSetId=""
-      def componentName="paymentService-v1.1"
+      def componentName="web-app-v1.1"
       def collectionName="release-1.0"
       def snapshotName=""
       def exporterName ='k8s-exporter' 
       def exporterArgs = '{"component": "' + componentName + '", "collection": "' + collectionName + '", "deployable": "' + deployableName + '"}'
-      def dockerImageName = "santoshnrao/demo-training-studio"
+      def dockerImageName = "santoshnrao/web-app"
       def dockerImageTag=""
 
       stage('Build image') {      
