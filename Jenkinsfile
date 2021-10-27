@@ -13,54 +13,54 @@ pipeline {
       stage('Initialize'){
             steps{
                   script{
-                  def app     
-                  dockerImageName = "santoshnrao/web-app"
+                  
+                        dockerImageName = "santoshnrao/web-app"
 
-                  /**
-                  * DevOps Config App related information
-                  */
-                  def appName='devops-demo-web-app'
-                  def deployableName = 'PROD-US'
-                  def setYamlUpload = true
-                  def componentName="web-app-v1.1"
-                  def collectionName="release-1.0"
-                  
-                  /**
-                  * Configuration File information to be uploade
-                  */ 
-                  
-                  // Json Example
-                  def configFilePath = "paymentService"
-                  def exportFormat ='json'
+                        /**
+                        * DevOps Config App related information
+                        */
+                        appName='devops-demo-web-app'
+                        deployableName = 'PROD-US'
+                        setYamlUpload = true
+                        componentName="web-app-v1.1"
+                        collectionName="release-1.0"
+                        
+                        /**
+                        * Configuration File information to be uploade
+                        */ 
+                        
+                        // Json Example
+                        configFilePath = "paymentService"
+                        exportFormat ='json'
 
-                  // Yaml Example
-                  if(setYamlUpload){
-                        exportFormat ='yaml'
-                        configFilePath = "k8s/helm/values.yml"
-                  }
+                        // Yaml Example
+                        if(setYamlUpload){
+                              exportFormat ='yaml'
+                              configFilePath = "k8s/helm/values.yml"
+                        }
 
-                  /**
-                  * Devops Config exporter related information
-                  */
-                  
-                  def exporterName ='returnAllData' 
-                  def exporterArgs = ''
-                  
-                  /**
-                  * Jenkins variables declared to be used in pipeline
-                  */ 
+                        /**
+                        * Devops Config exporter related information
+                        */
+                        
+                        exporterName ='returnAllData' 
+                        exporterArgs = ''
+                        
+                        /**
+                        * Jenkins variables declared to be used in pipeline
+                        */ 
 
-                  def fileNamePrefix ='exported_file_'
-                  def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
-                  def changeSetId=""
-                  def snapshotName=""
-                  
-                  def dockerImageTag=""
-                  def snapName=''
-                  def snapshotObject=""
-                  def isSnapshotCreated=false
-                  def isSnapshotValidateionRequired=false
-                  def isSnapshotPublisingRequired=false
+                        fileNamePrefix ='exported_file_'
+                        fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
+                        changeSetId=""
+                        snapshotName=""
+                        
+                        dockerImageTag=""
+                        snapName=''
+                        snapshotObject=""
+                        isSnapshotCreated=false
+                        isSnapshotValidateionRequired=false
+                        isSnapshotPublisingRequired=false
                   }
             }
       }
