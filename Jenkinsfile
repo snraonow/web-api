@@ -121,30 +121,32 @@ pipeline {
 
 
     stage("Get snapshot status"){
-          steps{
+      steps{
+
         echo "Triggering Get snapshots for applicationName:${appName},deployableName:${deployableName},changeSetId:${changeSetId}"
-
-        changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
+  
         script{
-                  if (!changeSetResults){
-           isSnapshotCreated=false
-            echo "no snapshot were created"
-          }
-          else{
+            
+            changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
+            if (!changeSetResults){
+                  isSnapshotCreated=false
+                  echo "no snapshot were created"
+            }
+            else{
                 
-              echo "ChangeSet Result : ${changeSetResults}"
+                  echo "ChangeSet Result : ${changeSetResults}"
 
 
-              def changeSetResultsObject = readJSON text: changeSetResults
+                  def changeSetResultsObject = readJSON text: changeSetResults
 
-              changeSetResultsObject.each {
-                    snapshotObject = it
-               }
+                  changeSetResultsObject.each {
+                        snapshotObject = it
+                  }
              
-          }
-        }
+            }
+            }
 
-          }
+      }
           
       
           
@@ -158,27 +160,27 @@ pipeline {
             }
             steps{
                   script{
-                  echo "Get latest snapshot"
-                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
-                  if (!changeSetResults){
-                        error "no snapshots found"
-                  }
-                else{
+                        echo "Get latest snapshot"
+                        changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                        if (!changeSetResults){
+                              error "no snapshots found"
+                        }
+                        else{
 
-                    echo "ChangeSet Result : ${changeSetResults}"
-                    isSnapshotCreated=true
+                              echo "ChangeSet Result : ${changeSetResults}"
+                              isSnapshotCreated=true
 
 
-                    def changeSetResultsObject = readJSON text: changeSetResults
+                              def changeSetResultsObject = readJSON text: changeSetResults
 
-                    changeSetResultsObject.each {
-                          snapshotName = it.name
-                          snapshotObject = it;
-                     }
+                              changeSetResultsObject.each {
+                                    snapshotName = it.name
+                                    snapshotObject = it;
+                              }
 
-                }
+                        }
 
-                 error "exception case"
+                        error "exception case"
                   }
             }
 
@@ -190,43 +192,43 @@ pipeline {
             }
             steps{
                   script{
-                  echo "Get latest snapshot"
-                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                        echo "Get latest snapshot"
+                        changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
                   
-                  if (!changeSetResults){
-                        error "no snapshots found"
+                        if (!changeSetResults){
+                              error "no snapshots found"
+                        }
+                        else{
+
+                        echo "ChangeSet Result : ${changeSetResults}"
+
+                        def changeSetResultsObject = readJSON text: changeSetResults
+
+                        changeSetResultsObject.each {
+
+                              snapshotName = it.name
+                              snapshotObject = it;
+                              
+      //                           if(it.validation == "passed"){
+      //                                   echo "validation passed for snapshot : ${it.name}"
+      //                                   echo "Snapshot Name : ${snapshotName} "                
+      //                                   if (it.published == false ){
+                                          
+      //                                   }
+      //                            }else if(it.validated == 'Not Validated'){
+                                    
+      //                                   echo "latest Snapshot is not validated : ${it.name}" 
+      //                                   isSnapshotValidateionRequired=true;
+                                    
+      //                           }else{
+      //                                 error "latest snapshot ${snapshotName} is not validated"
+      //                           }
+                              }
+
+                        }
+
+                        error "exception case"
                   }
-                  else{
-
-                    echo "ChangeSet Result : ${changeSetResults}"
-
-                    def changeSetResultsObject = readJSON text: changeSetResults
-
-                    changeSetResultsObject.each {
-
-                          snapshotName = it.name
-                          snapshotObject = it;
-                            
-//                           if(it.validation == "passed"){
-//                                   echo "validation passed for snapshot : ${it.name}"
-//                                   echo "Snapshot Name : ${snapshotName} "                
-//                                   if (it.published == false ){
-                                        
-//                                   }
-//                            }else if(it.validated == 'Not Validated'){
-                                  
-//                                   echo "latest Snapshot is not validated : ${it.name}" 
-//                                   isSnapshotValidateionRequired=true;
-                                
-//                           }else{
-//                                 error "latest snapshot ${snapshotName} is not validated"
-//                           }
-                     }
-
-                }
-
-                 error "exception case"
-            }
             }
 
       }          
@@ -238,10 +240,10 @@ pipeline {
             }
             steps{
                   script{
-                  validateResponse = snDevOpsConfigValidate( applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotObject.name}" )
-                  if( validateResponse != null ){
-                        echo "validation Response submited for ${snapshotObject.name}"
-                  }
+                        validateResponse = snDevOpsConfigValidate( applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotObject.name}" )
+                        if( validateResponse != null ){
+                              echo "validation Response submited for ${snapshotObject.name}"
+                        }
                   }
             }
             
