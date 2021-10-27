@@ -236,7 +236,7 @@ pipeline {
 
       stage ('Check Snapshot Validity'){
             when  {
-                  snapshotObject.validation 'Not Validated'
+                  expression { snapshotObject.validation == 'Not Validated' }
             }
             steps{
                   script{
