@@ -135,6 +135,7 @@ node {
                 else{
 
                     echo "ChangeSet Result : ${changeSetResults}"
+                    isSnapshotCreated=true
 
 
                     def changeSetResultsObject = readJSON text: changeSetResults
