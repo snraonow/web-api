@@ -1,60 +1,65 @@
 pipeline {    
 
+      agent any
       /**
       * Jenkins pipline related variables
       */
       
-      def app     
-      def dockerImageName = "santoshnrao/web-app"
 
-      /**
-      * DevOps Config App related information
-      */
-      def appName='devops-demo-web-app'
-      def deployableName = 'PROD-US'
-      def setYamlUpload = true
-      def componentName="web-app-v1.1"
-      def collectionName="release-1.0"
-      
-      /**
-      * Configuration File information to be uploade
-      */ 
-      
-      // Json Example
-      def configFilePath = "paymentService"
-      def exportFormat ='json'
 
-      // Yaml Example
-      if(setYamlUpload){
-            exportFormat ='yaml'
-            configFilePath = "k8s/helm/values.yml"
-      }
-
-      /**
-      * Devops Config exporter related information
-      */
-      
-      def exporterName ='returnAllData' 
-      def exporterArgs = ''
-      
-      /**
-      * Jenkins variables declared to be used in pipeline
-      */ 
-
-      def fileNamePrefix ='exported_file_'
-      def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
-      def changeSetId=""
-      def snapshotName=""
-      
-      def dockerImageTag=""
-      def snapName=''
-      def snapshotObject=""
-      def isSnapshotCreated=false
-      def isSnapshotValidateionRequired=false
-      def isSnapshotPublisingRequired=false
       
       stages{
 
+      stage('Initialize'){
+                  def app     
+                  def dockerImageName = "santoshnrao/web-app"
+
+                  /**
+                  * DevOps Config App related information
+                  */
+                  def appName='devops-demo-web-app'
+                  def deployableName = 'PROD-US'
+                  def setYamlUpload = true
+                  def componentName="web-app-v1.1"
+                  def collectionName="release-1.0"
+                  
+                  /**
+                  * Configuration File information to be uploade
+                  */ 
+                  
+                  // Json Example
+                  def configFilePath = "paymentService"
+                  def exportFormat ='json'
+
+                  // Yaml Example
+                  if(setYamlUpload){
+                        exportFormat ='yaml'
+                        configFilePath = "k8s/helm/values.yml"
+                  }
+
+                  /**
+                  * Devops Config exporter related information
+                  */
+                  
+                  def exporterName ='returnAllData' 
+                  def exporterArgs = ''
+                  
+                  /**
+                  * Jenkins variables declared to be used in pipeline
+                  */ 
+
+                  def fileNamePrefix ='exported_file_'
+                  def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
+                  def changeSetId=""
+                  def snapshotName=""
+                  
+                  def dockerImageTag=""
+                  def snapName=''
+                  def snapshotObject=""
+                  def isSnapshotCreated=false
+                  def isSnapshotValidateionRequired=false
+                  def isSnapshotPublisingRequired=false
+      }
       
       // Build Step
       stage('Build image') {      
