@@ -14,7 +14,7 @@ pipeline {
             steps{
                   script{
                   def app     
-                  def dockerImageName = "santoshnrao/web-app"
+                  dockerImageName = "santoshnrao/web-app"
 
                   /**
                   * DevOps Config App related information
