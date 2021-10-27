@@ -151,7 +151,7 @@ node {
 
       }
           
- stage('Get latest snapshot'){
+      stage('Get latest snapshot'){
             when {
                   isSnapshotCreated 'false'
             }
@@ -259,9 +259,12 @@ node {
             when {
                   isSnapshotPublisingRequired 'true'
             }
-            echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
-            publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
-            echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
+            steps{
+                  echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
+                  publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
+                  echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
+
+            }
       }
 
       stage('Export Snapshots from Service Now') {
