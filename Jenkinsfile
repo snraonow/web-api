@@ -99,8 +99,6 @@ node {
 
     stage("Get snapshot status"){
           
-          steps{
-          
         echo "Triggering Get snapshots for applicationName:${appName},deployableName:${deployableName},changeSetId:${changeSetId}"
 
         changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
@@ -117,15 +115,6 @@ node {
 
               changeSetResultsObject.each {
                     snapshotObject = it
-
-//                       if(it.validation == "passed"){
-//                             echo "validation passed for snapshot : ${it.name}"
-//                             snapshotName = it.name
-//                             echo "Snapshot Name : ${snapshotName} "                
-//                       }else{
-//                             echo "Snapshot failed to get validated : ${it.name}" ;
-//                             assert it.validation == "passed"
-//                       }
                }
              
           }
@@ -151,24 +140,8 @@ node {
                     def changeSetResultsObject = readJSON text: changeSetResults
 
                     changeSetResultsObject.each {
-
                           snapshotName = it.name
                           snapshotObject = it;
-                            
-//                           if(it.validation == "passed"){
-//                                   echo "validation passed for snapshot : ${it.name}"
-//                                   echo "Snapshot Name : ${snapshotName} "                
-//                                   if (it.published == false ){
-                                        
-//                                   }
-//                            }else if(it.validated == 'Not Validated'){
-                                  
-//                                   echo "latest Snapshot is not validated : ${it.name}" 
-//                                   isSnapshotValidateionRequired=true;
-                                
-//                           }else{
-//                                 error "latest snapshot ${snapshotName} is not validated"
-//                           }
                      }
 
                 }
@@ -185,13 +158,13 @@ node {
             steps{
                   echo "Get latest snapshot"
                   changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                  
                   if (!changeSetResults){
                         error "no snapshots found"
                   }
-                else{
+                  else{
 
                     echo "ChangeSet Result : ${changeSetResults}"
-
 
                     def changeSetResultsObject = readJSON text: changeSetResults
 
