@@ -12,25 +12,25 @@ pipeline {
 
       stage('Initialize'){
             steps{
-                  def app     
-                  def dockerImageName = "santoshnrao/web-app"
+                   app     
+                   dockerImageName = "santoshnrao/web-app"
 
                   /**
                   * DevOps Config App related information
                   */
-                  def appName='devops-demo-web-app'
-                  def deployableName = 'PROD-US'
-                  def setYamlUpload = true
-                  def componentName="web-app-v1.1"
-                  def collectionName="release-1.0"
+                   appName='devops-demo-web-app'
+                   deployableName = 'PROD-US'
+                   setYamlUpload = true
+                   componentName="web-app-v1.1"
+                   collectionName="release-1.0"
                   
                   /**
                   * Configuration File information to be uploade
                   */ 
                   
                   // Json Example
-                  def configFilePath = "paymentService"
-                  def exportFormat ='json'
+                   configFilePath = "paymentService"
+                   exportFormat ='json'
 
                   // Yaml Example
                   if(setYamlUpload){
@@ -42,24 +42,24 @@ pipeline {
                   * Devops Config exporter related information
                   */
                   
-                  def exporterName ='returnAllData' 
-                  def exporterArgs = ''
+                   exporterName ='returnAllData' 
+                   exporterArgs = ''
                   
                   /**
                   * Jenkins variables declared to be used in pipeline
                   */ 
 
-                  def fileNamePrefix ='exported_file_'
-                  def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
-                  def changeSetId=""
-                  def snapshotName=""
+                   fileNamePrefix ='exported_file_'
+                   fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
+                   changeSetId=""
+                   snapshotName=""
                   
-                  def dockerImageTag=""
-                  def snapName=''
-                  def snapshotObject=""
-                  def isSnapshotCreated=false
-                  def isSnapshotValidateionRequired=false
-                  def isSnapshotPublisingRequired=false
+                   dockerImageTag=""
+                   snapName=''
+                   snapshotObject=""
+                   isSnapshotCreated=false
+                   isSnapshotValidateionRequired=false
+                   isSnapshotPublisingRequired=false
             }
       }
       
