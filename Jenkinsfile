@@ -84,7 +84,9 @@ pipeline {
        stage('Push docker Image') { 
              steps{
             sh 'ls -a'
+            script{
 
+            
             dockerImageTag = env.BUILD_NUMBER
             dockerImageNameTag = "${dockerImageName}" + ":" + "${dockerImageTag}"
       
@@ -94,6 +96,7 @@ pipeline {
             echo "snDevopsArtifactPayload ${snDevopsArtifactPayload} "
             
             snDevOpsArtifact(artifactsPayload:snDevopsArtifactPayload)
+            }
 
              }
 
