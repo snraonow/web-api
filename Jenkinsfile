@@ -48,6 +48,7 @@ node {
       
       def dockerImageTag=""
       def snapName=''
+      def isSnapshotCreated=false
       
       // Build Step
       stage('Build image') {      
@@ -114,11 +115,26 @@ node {
             
           }
           if (!snapshotName?.trim()){
-                error "No valid snapshot found to proceed" ;
+                echo "No valid snapshot found to proceed" ;
+                isSnapshotCreated = false;
+                
+          }else{
+                isSnapshotCreated = true;
+                echo "Snapshot Name : ${snapshotName} "                
           }
-          echo "Snapshot Name : ${snapshotName} "                
           
     }
+      
+      stage('Get latest snapshot'){
+            when {
+                  isSnapshotCreated 'false'
+            }
+            steps{
+                  echo "Get latest snapshot"
+                  error "to be done"
+            }
+
+      }
 
       stage('Publish the snapshot'){
             echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
