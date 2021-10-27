@@ -11,6 +11,7 @@ pipeline {
       stages{
 
       stage('Initialize'){
+            steps{
                   def app     
                   def dockerImageName = "santoshnrao/web-app"
 
@@ -59,6 +60,7 @@ pipeline {
                   def isSnapshotCreated=false
                   def isSnapshotValidateionRequired=false
                   def isSnapshotPublisingRequired=false
+            }
       }
       
       // Build Step
