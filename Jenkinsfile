@@ -188,7 +188,7 @@ pipeline {
           
       stage('Get latest snapshot'){
             when {
-                  isSnapshotCreated 'false'
+                  expression { isSnapshotCreated == false }
             }
             steps{
                   script{
