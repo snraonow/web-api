@@ -104,7 +104,7 @@ node {
         changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
           if (!changeSetResults){
            isSnapshotCreated=false
-            echo
+            echo "no snapshot were created"
           }
           else{
                 
