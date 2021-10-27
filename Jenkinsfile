@@ -179,8 +179,7 @@ pipeline {
                               }
 
                         }
-
-                        error "exception case"
+                        
                   }
             }
 
@@ -201,62 +200,66 @@ pipeline {
             
       }
           
-//       stage('Get latest snapshot after validation'){
-//             when { 
-//                   expression{ isSnapshotCreated == false && snapshotObject.validation == 'Not Validated'}
-//             }
-//             steps{
-//                   echo "Get latest snapshot"
-//                   changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
-//                   if (!changeSetResults){
-//                         error "no snapshots found"
-//                   }
-//                 else{
+      stage('Get latest snapshot after validation'){
+            when { 
+                  expression{ isSnapshotCreated == false && snapshotObject.validation == 'Not Validated'}
+            }
+            steps{
+                  echo "Get latest snapshot"
+                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                  if (!changeSetResults){
+                        error "no snapshots found"
+                  }
+                else{
 
-//                     echo "ChangeSet Result : ${changeSetResults}"
+                    echo "ChangeSet Result : ${changeSetResults}"
 
 
-//                     def changeSetResultsObject = readJSON text: changeSetResults
+                    def changeSetResultsObject = readJSON text: changeSetResults
 
-//                     changeSetResultsObject.each {
+                    changeSetResultsObject.each {
 
-//                           snapshotName = it.name
-//                           snapshotObject = it;
+                          snapshotName = it.name
+                          snapshotObject = it;
                             
-// //                           if(it.validation == "passed"){
-// //                                   echo "validation passed for snapshot : ${it.name}"
-// //                                   echo "Snapshot Name : ${snapshotName} "                
-// //                                   if (it.published == false ){
+//                           if(it.validation == "passed"){
+//                                   echo "validation passed for snapshot : ${it.name}"
+//                                   echo "Snapshot Name : ${snapshotName} "                
+//                                   if (it.published == false ){
                                         
-// //                                   }
-// //                            }else if(it.validated == 'Not Validated'){
+//                                   }
+//                            }else if(it.validated == 'Not Validated'){
                                   
-// //                                   echo "latest Snapshot is not validated : ${it.name}" 
-// //                                   isSnapshotValidateionRequired=true;
+//                                   echo "latest Snapshot is not validated : ${it.name}" 
+//                                   isSnapshotValidateionRequired=true;
                                 
-// //                           }else{
-// //                                 error "latest snapshot ${snapshotName} is not validated"
-// //                           }
-//                      }
+//                           }else{
+//                                 error "latest snapshot ${snapshotName} is not validated"
+//                           }
+                     }
+                     if(snapshotObject.validated == "passed"){
+                           echo "latest snapshot validation is passed"
+                     }else{
+                           error "latest snapshot validation failed"
+                     }
 
-//                 }
+                }
 
-//                  error "exception case"
-//             }
+            }
 
-//       }            
+      }            
       
-//       stage('Publish the snapshot'){
-//             when {
-//                   isSnapshotPublisingRequired 'true'
-//             }
-//             steps{
-//                   echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
-//                   publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
-//                   echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
+      stage('Publish the snapshot'){
+            when {
+                  expression { snapshotObject.published == false }
+            }
+            steps{
+                  echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
+                  publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
+                  echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
 
-//             }
-//       }
+            }
+      }
 
 //       stage('Export Snapshots from Service Now') {
 
