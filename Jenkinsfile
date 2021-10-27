@@ -48,7 +48,10 @@ node {
       
       def dockerImageTag=""
       def snapName=''
+      def snapshotObject=""
       def isSnapshotCreated=false
+      def isSnapshotValidateionRequired=false
+      def isSnapshotPublisingRequired=false
       
       // Build Step
       stage('Build image') {      
@@ -96,34 +99,39 @@ node {
 
     stage("Get snapshot status"){
           
+          steps{
+          
         echo "Triggering Get snapshots for applicationName:${appName},deployableName:${deployableName},changeSetId:${changeSetId}"
 
         changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
-        echo "ChangeSet Result : ${changeSetResults}"
-        
-        def changeSetResultsObject = readJSON text: changeSetResults
-        
-          changeSetResultsObject.each {
-
-                if(it.validation == "passed"){
-                      echo "validation passed for snapshot : ${it.name}"
-                      snapshotName = it.name
-                }else{
-                      echo "Snapshot failed to get validated : ${it.name}" ;
-                      assert it.validation == "passed"
-                }
-            
+          if (!changeSetResults){
+           isSnapshotCreated=false
+            echo
           }
-          if (!snapshotName?.trim()){
-                echo "No valid snapshot found to proceed" ;
-                isSnapshotCreated = false;
+          else{
                 
-          }else{
-                isSnapshotCreated = true;
-                echo "Snapshot Name : ${snapshotName} "                
+              echo "ChangeSet Result : ${changeSetResults}"
+
+
+              def changeSetResultsObject = readJSON text: changeSetResults
+
+              changeSetResultsObject.each {
+                    snapshotObject = it
+
+//                       if(it.validation == "passed"){
+//                             echo "validation passed for snapshot : ${it.name}"
+//                             snapshotName = it.name
+//                             echo "Snapshot Name : ${snapshotName} "                
+//                       }else{
+//                             echo "Snapshot failed to get validated : ${it.name}" ;
+//                             assert it.validation == "passed"
+//                       }
+               }
+             
           }
           
     }
+      
       
       stage('Get latest snapshot'){
             when {
@@ -131,12 +139,153 @@ node {
             }
             steps{
                   echo "Get latest snapshot"
-                  error "to be done"
+                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                  if (!changeSetResults){
+                        error "no snapshots found"
+                  }
+                else{
+
+                    echo "ChangeSet Result : ${changeSetResults}"
+
+
+                    def changeSetResultsObject = readJSON text: changeSetResults
+
+                    changeSetResultsObject.each {
+
+                          snapshotName = it.name
+                          snapshotObject = it;
+                            
+//                           if(it.validation == "passed"){
+//                                   echo "validation passed for snapshot : ${it.name}"
+//                                   echo "Snapshot Name : ${snapshotName} "                
+//                                   if (it.published == false ){
+                                        
+//                                   }
+//                            }else if(it.validated == 'Not Validated'){
+                                  
+//                                   echo "latest Snapshot is not validated : ${it.name}" 
+//                                   isSnapshotValidateionRequired=true;
+                                
+//                           }else{
+//                                 error "latest snapshot ${snapshotName} is not validated"
+//                           }
+                     }
+
+                }
+
+                 error "exception case"
             }
 
       }
+          
+ stage('Get latest snapshot'){
+            when {
+                  isSnapshotCreated 'false'
+            }
+            steps{
+                  echo "Get latest snapshot"
+                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                  if (!changeSetResults){
+                        error "no snapshots found"
+                  }
+                else{
 
+                    echo "ChangeSet Result : ${changeSetResults}"
+
+
+                    def changeSetResultsObject = readJSON text: changeSetResults
+
+                    changeSetResultsObject.each {
+
+                          snapshotName = it.name
+                          snapshotObject = it;
+                            
+//                           if(it.validation == "passed"){
+//                                   echo "validation passed for snapshot : ${it.name}"
+//                                   echo "Snapshot Name : ${snapshotName} "                
+//                                   if (it.published == false ){
+                                        
+//                                   }
+//                            }else if(it.validated == 'Not Validated'){
+                                  
+//                                   echo "latest Snapshot is not validated : ${it.name}" 
+//                                   isSnapshotValidateionRequired=true;
+                                
+//                           }else{
+//                                 error "latest snapshot ${snapshotName} is not validated"
+//                           }
+                     }
+
+                }
+
+                 error "exception case"
+            }
+
+      }          
+          
+
+      stage ('Check Snapshot Validity'){
+            when  {
+                  snapshotObject.validation 'Not Validated'
+            }
+            steps{
+                  validateResponse = snDevOpsConfigValidate( applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotObject.name}" )
+                  if( validateResponse != null ){
+                        echo "validation Response submited for ${snapshotObject.name}"
+                  }
+            }
+            
+      }
+          
+      stage('Get latest snapshot after validation'){
+            when { 
+                  expression{ isSnapshotCreated == false && snapshotObject.validation == 'Not Validated'}
+            }
+            steps{
+                  echo "Get latest snapshot"
+                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                  if (!changeSetResults){
+                        error "no snapshots found"
+                  }
+                else{
+
+                    echo "ChangeSet Result : ${changeSetResults}"
+
+
+                    def changeSetResultsObject = readJSON text: changeSetResults
+
+                    changeSetResultsObject.each {
+
+                          snapshotName = it.name
+                          snapshotObject = it;
+                            
+//                           if(it.validation == "passed"){
+//                                   echo "validation passed for snapshot : ${it.name}"
+//                                   echo "Snapshot Name : ${snapshotName} "                
+//                                   if (it.published == false ){
+                                        
+//                                   }
+//                            }else if(it.validated == 'Not Validated'){
+                                  
+//                                   echo "latest Snapshot is not validated : ${it.name}" 
+//                                   isSnapshotValidateionRequired=true;
+                                
+//                           }else{
+//                                 error "latest snapshot ${snapshotName} is not validated"
+//                           }
+                     }
+
+                }
+
+                 error "exception case"
+            }
+
+      }            
+      
       stage('Publish the snapshot'){
+            when {
+                  isSnapshotPublisingRequired 'true'
+            }
             echo "Step to publish snapshot applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName}"
             publishSnapshotResults = snDevOpsConfigPublish(applicationName:"${appName}",deployableName:"${deployableName}",snapshotName: "${snapshotName}")
             echo " Publish result for applicationName:${appName},deployableName:${deployableName} snapshotName:${snapshotName} is ${publishSnapshotResults} "
