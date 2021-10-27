@@ -67,19 +67,22 @@ pipeline {
       
       // Build Step
       stage('Build image') {      
-            
+            steps{
             checkout scm    
             echo "scm checkout successful"
+            }
             
        }     
       stage('Test') {           
-                      
+             steps{         
              sh 'echo "Tests passed"'        
+             }
                 
         }     
       
       // Generate an Artifact
        stage('Push docker Image') { 
+             steps{
             sh 'ls -a'
 
             dockerImageTag = env.BUILD_NUMBER
@@ -92,11 +95,13 @@ pipeline {
             
             snDevOpsArtifact(artifactsPayload:snDevopsArtifactPayload)
 
+             }
+
       }
       
       stage('Upload Configuration Files'){
             
-
+            steps{
             sh "echo validating configuration file ${configFilePath}.${exportFormat}"
             changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", fileName:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
 
@@ -105,16 +110,18 @@ pipeline {
               echo "Change set registration for ${changeSetId}"
               changeSetRegResult = snDevOpsConfigRegisterChangeSet(changesetId:"${changeSetId}")
               echo "change set registration set result ${changeSetRegResult}"
+            }
             
       }
 
 
     stage("Get snapshot status"){
-          
+          steps{
         echo "Triggering Get snapshots for applicationName:${appName},deployableName:${deployableName},changeSetId:${changeSetId}"
 
         changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
-          if (!changeSetResults){
+        script{
+                  if (!changeSetResults){
            isSnapshotCreated=false
             echo "no snapshot were created"
           }
@@ -130,6 +137,11 @@ pipeline {
                }
              
           }
+        }
+
+          }
+          
+      
           
     }
       
