@@ -205,45 +205,30 @@ pipeline {
                   expression{ isSnapshotCreated == false && snapshotObject.validation == 'Not Validated'}
             }
             steps{
-                  echo "Get latest snapshot"
-                  changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
-                  if (!changeSetResults){
-                        error "no snapshots found"
+                  script{
+                        echo "Get latest snapshot"
+                        changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                        if (!changeSetResults){
+                              error "no snapshots found"
+                        }
+                        else{
+
+                              echo "ChangeSet Result : ${changeSetResults}"
+
+                              def changeSetResultsObject = readJSON text: changeSetResults
+
+                              changeSetResultsObject.each {
+                                    snapshotName = it.name
+                                    snapshotObject = it;
+                              }
+                              if(snapshotObject.validated == "passed"){
+                                    echo "latest snapshot validation is passed"
+                              }else{
+                                    error "latest snapshot validation failed"
+                              }
+
+                        }
                   }
-                else{
-
-                    echo "ChangeSet Result : ${changeSetResults}"
-
-
-                    def changeSetResultsObject = readJSON text: changeSetResults
-
-                    changeSetResultsObject.each {
-
-                          snapshotName = it.name
-                          snapshotObject = it;
-                            
-//                           if(it.validation == "passed"){
-//                                   echo "validation passed for snapshot : ${it.name}"
-//                                   echo "Snapshot Name : ${snapshotName} "                
-//                                   if (it.published == false ){
-                                        
-//                                   }
-//                            }else if(it.validated == 'Not Validated'){
-                                  
-//                                   echo "latest Snapshot is not validated : ${it.name}" 
-//                                   isSnapshotValidateionRequired=true;
-                                
-//                           }else{
-//                                 error "latest snapshot ${snapshotName} is not validated"
-//                           }
-                     }
-                     if(snapshotObject.validated == "passed"){
-                           echo "latest snapshot validation is passed"
-                     }else{
-                           error "latest snapshot validation failed"
-                     }
-
-                }
 
             }
 
