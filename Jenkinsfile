@@ -1,4 +1,4 @@
-node {    
+pipeline {    
 
       /**
       * Jenkins pipline related variables
@@ -52,6 +52,9 @@ node {
       def isSnapshotCreated=false
       def isSnapshotValidateionRequired=false
       def isSnapshotPublisingRequired=false
+      
+      stages{
+
       
       // Build Step
       stage('Build image') {      
@@ -123,6 +126,7 @@ node {
       
       
       stage('Get latest snapshot'){
+            
             when {
                   isSnapshotCreated 'false'
             }
@@ -298,6 +302,7 @@ node {
             echo "********************** END Deployment ****************"
 
             
+      }
       }
 
 }
