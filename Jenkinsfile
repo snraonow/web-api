@@ -1,10 +1,24 @@
 node {    
 
+      /**
+      * Jenkins pipline related variables
+      */
+      
       def app     
+      def dockerImageName = "santoshnrao/web-app"
+
+      /**
+      * DevOps Config App related information
+      */
       def appName='devops-demo-web-app'
-      def snapName=''
       def deployableName = 'PROD-US'
       def setYamlUpload = true
+      def componentName="web-app-v1.1"
+      def collectionName="release-1.0"
+      
+      /**
+      * Configuration File information to be uploade
+      */ 
       
       // Json Example
       def configFilePath = "paymentService"
@@ -16,17 +30,26 @@ node {
             configFilePath = "k8s/helm/values.yml"
       }
 
+      /**
+      * Devops Config exporter related information
+      */
+      
+      def exporterName ='returnAllData' 
+      def exporterArgs = ''
+      
+      /**
+      * Jenkins variables declared to be used in pipeline
+      */ 
+
       def fileNamePrefix ='exported_file_'
       def fullFileName="${fileNamePrefix}-${deployableName}-${currentBuild.number}.${exportFormat}"
       def changeSetId=""
-      def componentName="web-app-v1.1"
-      def collectionName="release-1.0"
       def snapshotName=""
-      def exporterName ='k8s-exporter' 
-      def exporterArgs = '{"component": "' + componentName + '", "collection": "' + collectionName + '", "deployable": "' + deployableName + '"}'
-      def dockerImageName = "santoshnrao/web-app"
+      
       def dockerImageTag=""
-
+      def snapName=''
+      
+      // Build Step
       stage('Build image') {      
             
             checkout scm    
@@ -39,6 +62,7 @@ node {
                 
         }     
       
+      // Generate an Artifact
        stage('Push docker Image') { 
             sh 'ls -a'
 
