@@ -230,7 +230,7 @@ pipeline {
             stage('Check validity of snapshot')  {
                   steps{
                         script{
-                              if(snapshotObject.validated == "passed"){
+                              if(snapshotObject.validation == "passed"){
                                     echo "latest snapshot validation is passed"
                               }else{
                                     error "latest snapshot validation failed"
@@ -242,7 +242,7 @@ pipeline {
             stage('Publish the snapshot'){
                   when {
                         
-                        expression { snapshotObject.validated == "passed" && snapshotObject.published == false }
+                        expression { snapshotObject.validation == "passed" && snapshotObject.published == false }
                   }
                   steps{
                         script{
