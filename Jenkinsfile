@@ -1,5 +1,20 @@
+/**
+* Parameters can be sent via build parameters, instead of chaning the code.
+* Use the same validable name to set the build parameters.
+* List of parameters that can be passed
+* appName='devops-demo-web-app'
+* deployableName = 'PROD-US'
+* componentName="web-app-v1.1"
+* collectionName="release-1.0"
+* exportFormat ='yaml'
+* configFilePath = "k8s/helm/values.yml"
+* exporterName ='returnAllData' 
+* exporterArgs = ''
+*/
+
 pipeline {    
 
+      
       agent any
       /**
       * Jenkins pipline related variables
@@ -22,7 +37,6 @@ pipeline {
                               */
                               appName='devops-demo-web-app'
                               deployableName = 'PROD-US'
-                              setYamlUpload = true
                               componentName="web-app-v1.1"
                               collectionName="release-1.0"
                               
@@ -30,15 +44,8 @@ pipeline {
                               * Configuration File information to be uploade
                               */ 
                               
-                              // Json Example
-                              configFilePath = "paymentService"
-                              exportFormat ='json'
-
-                              // Yaml Example
-                              if(setYamlUpload){
-                                    exportFormat ='yaml'
-                                    configFilePath = "k8s/helm/values.yml"
-                              }
+                              exportFormat ='yaml'
+                              configFilePath = "k8s/helm/values.yml"
 
                               /**
                               * Devops Config exporter related information
@@ -72,8 +79,29 @@ pipeline {
                                     echo "setting values from build parameter"
                                     if(params.appName){
                                           appName = params.appName;
-                                          echo "appName set to ${appname}"
                                     }
+                                    if(params.deployableName){
+                                          deployableName = params.deployableName
+                                    }
+                                    if(params.componentName){
+                                          componentName = params.deployableName
+                                    }
+                                    if(params.collectionName){
+                                          componentName = params.collectionName
+                                    }
+                                    if(params.exportFormat){
+                                          exportFormat = params.exportFormat
+                                    }
+                                    if(params.configFilePath){
+                                          configFilePath = params.configFilePath
+                                    }
+                                    if(params.exporterName){
+                                          exporterName =params.exporterName
+                                    }
+                                    if(params.exporterArgs){
+                                          exporterArgs = params.exporterArgs
+                                    } 
+
                               }
 
                         }
