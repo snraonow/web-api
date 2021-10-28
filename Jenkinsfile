@@ -230,8 +230,10 @@ pipeline {
             stage('Check validity of snapshot')  {
                   steps{
                         script{
+                              echo " snapshot object : ${snapshotObject}"
                               if(snapshotObject.validation == "passed"){
                                     echo "latest snapshot validation is passed"
+                                    
                               }else{
                                     error "latest snapshot validation failed"
                               }
