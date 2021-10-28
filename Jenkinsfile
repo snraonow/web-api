@@ -16,6 +16,7 @@ pipeline {
                         
                               dockerImageName = "santoshnrao/web-app"
 
+
                               /**
                               * DevOps Config App related information
                               */
@@ -61,6 +62,20 @@ pipeline {
                               isSnapshotCreated=false
                               isSnapshotValidateionRequired=false
                               isSnapshotPublisingRequired=false
+
+
+                              /**
+                              * Checking for parameters
+                              */
+
+                              if(params){
+                                    echo "setting values from build parameter"
+                                    if(params.appName){
+                                          appName = params.appName;
+                                          echo "appName set to ${appname}"
+                                    }
+                              }
+
                         }
                   }
             }
