@@ -1,6 +1,6 @@
 /**
-* Parameters can be sent via build parameters, instead of chaning the code.
-* Use the same validable name to set the build parameters.
+* Parameters can be sent via build parameters, instead of changing the code.
+* Use the same variable name to set the build parameters.
 * List of parameters that can be passed
 * appName='devops-demo-web-app'
 * deployableName = 'PROD-US'
