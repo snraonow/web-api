@@ -148,16 +148,23 @@ pipeline {
             stage('Upload Configuration Files'){
                   
                   steps{
-                  sh "echo validating configuration file ${configFilePath}.${exportFormat}"
-                  script{
-                  changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", fileName:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
+                        sh "echo validating configuration file ${configFilePath}.${exportFormat}"
+                        script{
+                              changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", fileName:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
 
-                        echo "validation result $changeSetId"
-                  
-                  echo "Change set registration for ${changeSetId}"
-                  changeSetRegResult = snDevOpsConfigRegisterChangeSet(changesetId:"${changeSetId}")
-                  echo "change set registration set result ${changeSetRegResult}"
-                  }
+                              echo "validation result $changeSetId"
+
+                              if(changeSetId != null){
+
+                                    echo "Change set registration for ${changeSetId}"
+                                    changeSetRegResult = snDevOpsConfigRegisterChangeSet(changesetId:"${changeSetId}")
+                                    echo "change set registration set result ${changeSetRegResult}"
+                                    
+                              } else {
+                                    
+                                    error "Change set was not created"
+                              }
+                        }
                   }
                   
             }
@@ -204,17 +211,17 @@ pipeline {
                   steps{
                         script{
                               echo "Get latest snapshot"
-                              changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
-                              if (!changeSetResults){
+                              snapshotResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                              if (!snapshotResults){
                                     error "no snapshots found"
                               }
                               else{
 
-                                    echo "ChangeSet Result : ${changeSetResults}"
+                                    echo "Snapshot Result : ${snapshotResults}"
 
-                                    def changeSetResultsObject = readJSON text: changeSetResults
+                                    def snapshotResultsObject = readJSON text: snapshotResults
 
-                                    changeSetResultsObject.each {
+                                    snapshotResultsObject.each {
                                           snapshotName = it.name
                                           snapshotObject = it;
                                     }
@@ -248,17 +255,17 @@ pipeline {
                   steps{
                         script{
                               echo "Get latest snapshot"
-                              changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
+                              snapshotResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
                               if (!changeSetResults){
                                     error "no snapshots found"
                               }
                               else{
 
-                                    echo "ChangeSet Result : ${changeSetResults}"
+                                    echo "Snapshot Result : ${snapshotResults}"
 
-                                    def changeSetResultsObject = readJSON text: changeSetResults
+                                    def snapshotResultsObject = readJSON text: snapshotResults
 
-                                    changeSetResultsObject.each {
+                                    snapshotResultsObject.each {
                                           snapshotName = it.name
                                           snapshotObject = it;
                                     }
