@@ -84,10 +84,10 @@ pipeline {
                                           deployableName = params.deployableName
                                     }
                                     if(params.componentName){
-                                          componentName = params.deployableName
+                                          componentName = params.componentName
                                     }
                                     if(params.collectionName){
-                                          componentName = params.collectionName
+                                          collectionName = params.collectionName
                                     }
                                     if(params.exportFormat){
                                           exportFormat = params.exportFormat
