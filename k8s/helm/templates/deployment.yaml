@@ -4,6 +4,10 @@ metadata:
   name: {{ include "demo-devops-webapp.fullname" . }}
   labels:
     {{- include "demo-devops-webapp.labels" . | nindent 4 }}
+    app.name : devops-config-demo-web-app
+    env: prod
+    version: v1
+    
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
