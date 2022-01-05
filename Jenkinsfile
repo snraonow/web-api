@@ -225,6 +225,9 @@ pipeline {
                                           snapshotName = it.name
                                           snapshotObject = it;
                                     }
+                                    
+                                    snapshotValidationStatus = snapshotObject.validation
+                                    snapshotPublishedStatus = snapshotObject.published 
 
                               }
                               
@@ -235,7 +238,7 @@ pipeline {
 
             stage ('Validate snapshot if not validated'){
                   when  {
-                        expression { snapshotObject.validation == 'Not Validated' }
+                        expression { snapshotValidationStatus == 'Not Validated' }
                   }
                   steps{
                         script{
@@ -269,6 +272,9 @@ pipeline {
                                           snapshotName = it.name
                                           snapshotObject = it;
                                     }
+                                   snapshotValidationStatus = snapshotObject.validation
+                                   snapshotPublishedStatus = snapshotObject.published 
+ 
 
                               }
                         }
@@ -283,15 +289,8 @@ pipeline {
                               echo " snapshot object : ${snapshotObject}"
                               if(snapshotObject.validation == "passed"){
                                     echo "latest snapshot validation is passed"
-                                    snapshotValidated = true;
-                                    if(snapshotObject.published == true ){
-                                          snapshotPublised = true
-                                    }else{
-                                          snapshotPublised = false
-                                    }
                                     
                               }else{
-                                    snapshotValidated = false
                                     error "latest snapshot validation failed"
                                     
                               }
@@ -302,7 +301,7 @@ pipeline {
             stage('Publish the snapshot'){
                   when {
                         
-                        expression { snapshotValidated == true && snapshotPublised == false }
+                        expression { snapshotValidationStatus == "passed" && snapshotPublishedStatus == false }
                   }
                   steps{
                         script{
