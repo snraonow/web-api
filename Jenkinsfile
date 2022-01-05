@@ -294,7 +294,7 @@ pipeline {
             stage('Publish the snapshot'){
                   when {
                         
-                        expression { snapshotObject.validation == "passed" && snapshotObject.published == "false" }
+                        expression { snapshotObject.validation == "passed" && snapshotObject.published == false }
                   }
                   steps{
                         script{
