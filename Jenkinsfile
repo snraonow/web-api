@@ -148,7 +148,7 @@ pipeline {
             stage('Upload Configuration Files'){
                   
                   steps{
-                        sh "echo validating configuration file ${configFilePath}.${exportFormat}"
+                        sh "echo validating configuration file ${configFilePath}"
                         script{
                               changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", configFile:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
 
