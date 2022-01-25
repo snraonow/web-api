@@ -177,7 +177,7 @@ pipeline {
             
                   script{
                         
-                        changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changeSetId:"${changeSetId}")
+                        changeSetResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}",changesetNumber:"${changeSetId}")
                         if (!changeSetResults){
                               isSnapshotCreated=false
                               echo "no snapshot were created"
