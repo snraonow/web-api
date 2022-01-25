@@ -157,7 +157,7 @@ pipeline {
                               if(changeSetId != null){
 
                                     echo "Change set registration for ${changeSetId}"
-                                    changeSetRegResult = snDevOpsConfigRegisterChangeSet(changesetId:"${changeSetId}")
+                                    changeSetRegResult = snDevOpsConfigRegisterPipeline(changesetNumber:"${changeSetId}")
                                     echo "change set registration set result ${changeSetRegResult}"
                                     
                               } else {
