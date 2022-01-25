@@ -150,7 +150,7 @@ pipeline {
                   steps{
                         sh "echo validating configuration file ${configFilePath}.${exportFormat}"
                         script{
-                              changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", fileName:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
+                              changeSetId = snDevOpsConfigUpload(applicationName:"${appName}",target:'component',namePath:"${componentName}", configFile:"${configFilePath}", autoCommit:'true',autoValidate:'true',dataFormat:"${exportFormat}")
 
                               echo "validation result $changeSetId"
 
