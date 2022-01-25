@@ -191,6 +191,7 @@ pipeline {
                               def changeSetResultsObject = readJSON text: changeSetResults
 
                               changeSetResultsObject.each {
+                                    snapshotName = it.name
                                     snapshotObject = it
                               }
                               
