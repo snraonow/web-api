@@ -193,6 +193,9 @@ pipeline {
                               changeSetResultsObject.each {
                                     snapshotObject = it
                               }
+                              
+                              snapshotValidationStatus = snapshotObject.validation
+                              snapshotPublishedStatus = snapshotObject.published 
                         
                         }
                         }
