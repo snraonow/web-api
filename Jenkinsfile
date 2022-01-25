@@ -183,6 +183,7 @@ pipeline {
                               echo "no snapshot were created"
                         }
                         else{
+                              isSnapshotCreated = true;
                         
                               echo "ChangeSet Result : ${changeSetResults}"
 
@@ -257,10 +258,10 @@ pipeline {
                   }
                   steps{
                         script{
-                              echo "Get latest snapshot"
+                              echo "Get latest snapshot for appName : ${appName} , deployableName: ${deployableName}"
                               snapshotResults = snDevOpsConfigGetSnapshots(applicationName:"${appName}",deployableName:"${deployableName}")
                               if (!changeSetResults){
-                                    error "no snapshots found"
+                                    error "no snapshots found for appName : ${appName} , deployableName: ${deployableName}"
                               }
                               else{
 
