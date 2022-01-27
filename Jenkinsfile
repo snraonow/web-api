@@ -8,7 +8,7 @@
 * collectionName="release-1.0"
 * exportFormat ='yaml'
 * configFilePath = "k8s/helm/values.yml"
-* exporterName ='returnAllData' 
+* exporterName ='returnAllData-nowPreview' 
 * exporterArgs = ''
 */
 
