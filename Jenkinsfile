@@ -51,7 +51,7 @@ pipeline {
                               * Devops Config exporter related information
                               */
                               
-                              exporterName ='returnAllData' 
+                              exporterName ='returnAllData-nowPreview' 
                               exporterArgs = ''
                               
                               /**
