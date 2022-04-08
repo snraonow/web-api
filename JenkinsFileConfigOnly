@@ -126,22 +126,15 @@ pipeline {
             // Generate an Artifact
             stage('Push docker Image') { 
                   steps{
-                  sh 'ls -a'
-                  script{
+                     sh 'ls -a'
+                     script{
+               
+                       dockerImageTag = env.BUILD_NUMBER
+                       dockerImageNameTag = "${dockerImageName}" + ":" + "${dockerImageTag}"
 
-                  
-                  dockerImageTag = env.BUILD_NUMBER
-                  dockerImageNameTag = "${dockerImageName}" + ":" + "${dockerImageTag}"
-            
+                    }
 
-                  snDevopsArtifactPayload = '{"artifacts": [{"name": "' + dockerImageName + '",  "version": "' + "${dockerImageTag}" + '", "semanticVersion": "' + "0.1.${dockerImageTag}"+ '","repositoryName": "' + dockerImageName+ '"}, ],"stageName":"Build image","branchName": "main"}'  ;
-                  echo " docker Image artifacat ${dockerImageNameTag} "
-                  echo "snDevopsArtifactPayload ${snDevopsArtifactPayload} "
-                  
-                  snDevOpsArtifact(artifactsPayload:snDevopsArtifactPayload)
-                  }
-
-                  }
+                 }
 
             }
             
@@ -156,9 +149,7 @@ pipeline {
 
                               if(changeSetId != null){
 
-                                    echo "Change set registration for ${changeSetId}"
-                                    changeSetRegResult = snDevOpsConfigRegisterPipeline(changesetNumber:"${changeSetId}")
-                                    echo "change set registration set result ${changeSetRegResult}"
+                                    echo "Change set created  ${changeSetId}"
                                     
                               } else {
                                     
@@ -321,9 +312,6 @@ pipeline {
             stage('Export Snapshots from Service Now') {
                   steps{
                         script{
-                              echo "Devops Change trigger change request"
-                              snDevOpsChange()
-
                               echo "Exporting for App: ${appName} Deployable; ${deployableName} Exporter name ${exporterName} "
                               echo "Configfile exporter file name ${fullFileName}"
                               sh  'echo "<<<<<<<<<export file is starting >>>>>>>>"'
