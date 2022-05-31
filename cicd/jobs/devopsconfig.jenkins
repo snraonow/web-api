@@ -1,0 +1,28 @@
+pipelineJob('e2e-jenkins-operator') {
+    displayName('DevOps Config job ')
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+    }
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/sannrao/web-api.git')
+                        credentials('jenkins-operator')
+                    }
+                    branches('*/dev2alert')
+                }
+            }
+            scriptPath('cicd/pipelines/devopsconfig.jenkins')
+        }
+    }
