@@ -34,7 +34,7 @@ public class DevOpsControllerTest {
 	
 	@Test
 	public void thisTestRunsSuccessful(){
-		assertThat(1,1);
+		assertThat(true);
 	}
 	
 }
