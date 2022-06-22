@@ -31,4 +31,10 @@ public class DevOpsControllerTest {
 		List<Applications> resultApps = fDevOpsController.getDevOpsApplication();
 		assertThat(resultApps.size()).isEqualTo(1);
 	}
+	
+	@Test
+	public void thisTestRunsSuccessful(){
+		assertThat(1,1);
+	}
+	
 }
