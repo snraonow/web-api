@@ -34,6 +34,7 @@ public class DevOpsControllerTest {
 	
 	@Test
 	public void thisTestRunsSuccessful(){
+		// This should always pass
 		assertThat(true);
 	}
 	
