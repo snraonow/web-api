@@ -4,9 +4,10 @@
 name: Maven Package
 
 on:
-  branch_protection_rule:
-    types: [created, deleted]
-
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 jobs:
   build:
 
