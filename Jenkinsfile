@@ -57,7 +57,7 @@ pipeline {
                     isSnapshotValidateionRequired = false
                     isSnapshotPublisingRequired = false
                     
-                    buildNumberArfifact = "grefId123"
+                    buildNumberArfifact = "grefBuildId"
 
                     /**
                     * Checking for parameters
