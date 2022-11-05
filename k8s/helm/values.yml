@@ -13,6 +13,7 @@ image:
   tag: ""
   buildIdRef : grefBuildId
 
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -28,7 +29,8 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
+podAnnotations: 
+  buildNumber : BUILD_NO_PLACE_HOLDER
 
 podSecurityContext: {}
   # fsGroup: 2000
