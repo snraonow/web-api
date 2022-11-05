@@ -3,20 +3,155 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
+
 trigger:
-- main
+- master
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+# - stage: build
+#   pool: 
+#     vmImage: ubuntu-latest
+#   jobs: 
+#   - job: build
+#     steps:
+#     - task: Maven@3
+#       inputs:
+#         mavenPomFile: 'pom.xml'
+#         mavenOptions: '-Xmx3072m'
+#         javaHomeOption: 'JDKVersion'
+#         jdkVersionOption: '1.11'
+#         jdkArchitectureOption: 'x64'
+#         publishJUnitResults: true
+#         testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#         goals: 'package' 
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+- stage: uploadConfigStage
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+  - job: uploadComponentJob
+    steps: 
+    - task: Bash@3
+      env:
+        BUILD_NUMBER : '$(Build.BuildNumber)'
+        BUILD_NUMBER_ARTIFACT: "BUILD_NO_PLACE_HOLDER"
+        CONFIG_FILE_PATH : '$(configFilePath)'
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
+            echo updaing configfile with build number
+            echo "updating '$BUILD_NUMBER_ARTIFACT' with '$BUILD_NUMBER' in file $CONFIG_FILE_PATH"
+            ls -a
+            sudo sed -i -e "s/BUILD_NO_PLACE_HOLDER/'$BUILD_NUMBER'/g" $CONFIG_FILE_PATH
+            echo uploading and auto-validating configuration file: $CONFIG_FILE_PATH
+            cat $CONFIG_FILE_PATH
+  
+    - task: ServiceNow-DevOps-Config-Agent-Upload-Config@1
+      name: uploadConfigTask
+     
+      inputs:
+        connectedServiceName: '$(serviceConnectionName)'
+        applicationName: '$(AppName)'
+        uploadTarget: 'component'
+        configFile: '$(ConfigFilePath)'
+        namePath: '$(ComponentName)'
+        dataFormat: 'yaml'
+        autoValidate: true
+        autoCommit: true
+        
+    
+- stage: GetSnapShotsByChangeSet
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+  - job: getSnapshotByChangeSetJob
+    variables:
+        changeSetId: $[stageDependencies.uploadConfigStage.uploadComponentJob.outputs['uploadConfigTask.changesetNumber'] ]
+    
+    steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'config task $UPLOAD_CONFIG_OUTPUT%'
+          echo '$CHANGE_SET_ID'
+      env:
+        CHANGE_SET : '$(changeSetId)'
+        UPLOAD_CONFIG_OUTPUT: "$[stageDependencies.uploadConfigStage.uploadComponentJob.outputs['uploadConfigTask']]"
+
+    - task: ServiceNow-DevOps-Config-Agent-Register-Pipeline@1
+      inputs:
+        connectedServiceName: '$(serviceConnectionName)'
+        changesetNumber: '$(changeSetId)'
+        applicationName: '$(AppName)'
+    - task: ServiceNow-DevOps-Config-Agent-Get-Snapshot@1
+      name: getSnapshotTask
+      inputs:
+        connectedServiceName: '$(serviceConnectionName)'
+        applicationName: '$(AppName)'
+        deployableName: '$(DeployableName)'
+        changeSetNumber: '$(changeSetId)'
+   
+- stage: GetSnapshotAndPublish
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+  - job: GetSnapshotAndPublishJob
+    variables:
+        snapShotObjects: $[stageDependencies.GetSnapShotsByChangeSet.getSnapshotByChangeSetJob.outputs['getSnapshotTask.snapshotObjects'] ]
+    steps: 
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'GetSnapsho output %GET_SNAPSHOT_OUTPUT%'
+          echo '%CHANGE_SET%'
+      env:
+        GET_SNAPSHOT_OUTPUT: "$[stageDependencies.GetSnapShotsByChangeSet.getSnapshotByChangeSetJob.outputs['getSnapshotTask'] ]"
+
+    - task: ServiceNow-DevOps-Config-Agent-Get-Snapshot-Name@1
+      name : getSnapshotName
+      inputs:
+        deployableName: '$(DeployableName)'
+        script: |
+          function run(){
+           let name;
+           let deployableName = process.argv[2]; 
+           let jsonObj = $(snapShotObjects);
+           let size = jsonObj.result.length;
+           for( let i =0; i<size ;i++ ){
+           obj = jsonObj.result[i];
+           if(obj["deployable_id.name"].toLowerCase() == deployableName){
+           name = obj.name;
+           console.log(name);   // This standard output of inline script is given as the task output
+          }
+           }
+           }
+           run();
+    - task: ServiceNow-DevOps-Config-Agent-Publish-Snapshot@1
+      inputs:
+        connectedServiceName: '$(serviceConnectionName)'
+        applicationName: '$(AppName)'
+        deployableName: '$(DeployableName)'
+        snapshotName: '$(getSnapshotName.snapshotName)'
+
+- stage: ExportSnapshot
+  pool: 
+    vmImage: ubuntu-latest
+  
+  jobs:
+  - job: ExportSnapShot
+    variables:
+      snapshotName: $[stageDependencies.GetSnapshotAndPublish.GetSnapshotAndPublishJob.outputs['getSnapshotName.snapshotName'] ]
+    steps:
+    - task: ServiceNow-DevOps-Config-Agent-Export-Snapshot@1
+      inputs:
+        connectedServiceName: '$(serviceConnectionName)'
+        applicationName: '$(AppName)'
+        deployableName: '$(DeployableName)'
+        exporterName: '$(ExporterName)'
+        snapshotName: '$(snapshotName)'
+        saveFile: true
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
