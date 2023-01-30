@@ -49,8 +49,8 @@ service:
   
 routing:
   enabled: true 
-  host: k8s.sndevops.xyz
-  path: /web-app
+  host: web-app-example.k8s.sndevops.xyz
+  path: 
 
 
 ingress:
