@@ -1,0 +1,128 @@
+---
+# Source: demo-devops-app/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snrao-demo-devops-app
+  labels:
+    app.kubernetes.io/name: demo-devops-app
+    app.kubernetes.io/instance: snrao
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: demo-devops-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: snrao-demo-devops-app
+  labels:    
+    app.kubernetes.io/name: demo-devops-app
+    app.kubernetes.io/instance: snrao
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: demo-devops-app
+    app.kubernetes.io/instance: snrao
+---
+# Source: demo-devops-app/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snrao-demo-devops-app
+  labels:    
+    app.kubernetes.io/name: demo-devops-app
+    app.kubernetes.io/instance: snrao
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app.name : devops-config-demo-web-app
+    env: prod
+    version: v1
+    
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-devops-app
+      app.kubernetes.io/instance: snrao
+  template:
+    metadata:
+      annotations:
+        buildNumber: BUILD_NO_PLACE_HOLDER
+      labels:
+        app.kubernetes.io/name: demo-devops-app
+        app.kubernetes.io/instance: snrao
+    spec:
+      serviceAccountName: snrao-demo-devops-app
+      securityContext:
+        {}
+      containers:
+        - name: demo-devops-app
+          securityContext:
+            {}
+          image: "sannrao/demo-devops-app:1.16.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health/liveness
+          #     port: http
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 10
+          #   httpGet:
+          #     path: /actuator/health/readiness
+          #     port: http
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: demo-devops-app/templates/route-mapping.yaml
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  snrao-demo-devops-app
+  labels:    
+    app.kubernetes.io/name: demo-devops-app
+    app.kubernetes.io/instance: snrao
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  prefix: ""
+  service: snrao-demo-devops-app.default.svc.cluster.local:8080
+  host: "web-app-example.k8s.sndevops.xyz"
+---
+# Source: demo-devops-app/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "snrao-demo-devops-app-test-connection"
+  labels:    
+    app.kubernetes.io/name: demo-devops-app
+    app.kubernetes.io/instance: snrao
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['snrao-demo-devops-app:8080']
+  restartPolicy: Never
