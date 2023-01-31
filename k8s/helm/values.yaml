@@ -50,7 +50,7 @@ service:
 routing:
   enabled: true 
   host: web-app-example.k8s.sndevops.xyz
-  path: 
+  path: /web-app
 
 
 ingress:
