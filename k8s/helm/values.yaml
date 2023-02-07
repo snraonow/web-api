@@ -55,7 +55,7 @@ routing:
 
 ingress:
   enabled: false
-  className: ""
+  className: "dummyclass"
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
