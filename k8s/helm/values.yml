@@ -1,0 +1,93 @@
+replicaCount: 2
+
+mongo:
+  dbport : 27017
+  dbUrl: "https://awesome.uswest1.training-studio..mongodb"
+  dbUserName : "@@database/dbUserName@@"
+  dbPassword : "@@database/dbPassword@@"
+
+image:
+  repository: sannrao/demo-devops-app
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+<<<<<<< HEAD
+  buildArtifactReference : grefBuildID
+=======
+  buildIdRef : grefBuildId
+>>>>>>> 85eb033 (Update values.yml)
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: false
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+  
+routing:
+  enabled: true 
+  host: k8s.sndevops.xyz
+  path: /web-app
+
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: k8s.sndevops.xyz
+      paths:
+        - path: /demo-devops-webapp
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: 
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
