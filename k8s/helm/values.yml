@@ -11,17 +11,11 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
-<<<<<<< HEAD
   buildArtifactReference : grefBuildID
-=======
-  buildIdRef : grefBuildId
->>>>>>> 85eb033 (Update values.yml)
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-
 
 serviceAccount:
   # Specifies whether a service account should be created
