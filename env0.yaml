@@ -1,0 +1,13 @@
+version: 1
+
+deploy:
+  steps:
+    terraformInit:
+      before:
+        - echo "Replacing !!!USER!!! with $USER in index.html"
+    terraformPlan:
+      after: 
+        - echo "Request external approval"
+        - terraform show -json .tf-plan > tf-plan.json
+#        - curl --location --header "Content-Type:application/json" --request POST "$ZAP_HOOK" -d "{\"deployment\":\"$ENV0_DEPLOYMENT_LOG_ID\"}"
+        - echo "To approve, visit https://tables.zapier.com/approval/inbox/id/3785"
