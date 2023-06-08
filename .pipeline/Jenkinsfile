@@ -16,7 +16,7 @@ pipeline {
         stage('ChangeContro'){
             steps{
                 echo "Change Control"
-                snDevopsChange()
+                snDevOpsChange()
             }
         }
         stage('Deploy') {
