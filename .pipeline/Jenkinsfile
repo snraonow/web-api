@@ -10,7 +10,13 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh 'mvn verify'
+                sh './mvnw verify'
+            }
+        }
+        stage('ChangeContro'){
+            steps{
+                echo "Change Control"
+                snDevopsChange()
             }
         }
         stage('Deploy') {
