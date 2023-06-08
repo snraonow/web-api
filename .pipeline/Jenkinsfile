@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh './mvnw -B -DskipTests clean package'
+                // sh './mvnw -B -DskipTests clean package'
             }
         }
         stage('Test') {
@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh './mvnw compile jib:build -s .pipeline/maven_setting.xml'
+                // ash './mvnw compile jib:build -s .pipeline/maven_setting.xml'
             }
         }
     }
