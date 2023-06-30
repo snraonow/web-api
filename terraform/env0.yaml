@@ -1,0 +1,47 @@
+version: 2
+
+deploy:
+  steps:
+    setupVariables:
+      after:
+        - name: Update ServiceNow
+          run: |
+            echo "Update ServiceNow"
+    terraformPlan:
+      before:
+        - name: Begin Plan
+          run: |
+            echo "Begin Plan"
+      after:
+        - name: Begin Security Scan
+          run: |
+            # simulate a scan
+            sleep 30  
+            echo "Begin Security Scan"
+    terraformApply:
+      before:
+        - name: Begin Apply
+          run: |
+            "Begin Apply"
+      after:
+        - name: Finish Apply 
+          run: |
+            "Finish Apply"
+
+
+    # "name": "git:clone",
+    # "name": "state:get",
+    # "name": "spec:load",
+    # "name": "set:vars",
+    # "name": "set:vars-after-0",  custom steps have this -after-0 notation
+    # "name": "set:version",
+    # "name": "template:init",
+    # "name": "tf:init",
+    # "name": "tf:workspace",
+    # "name": "tag",
+    # "name": "tf:plan",
+    # "name": "tf:plan-after-0",    "displayName": "KiCS Scan"
+    # "name": "tf:cost-estimation"
+    # "name": "tf:apply"
+    # "name": "tf:output"
+    # "name": "state:put",
