@@ -33,7 +33,7 @@ WEBHOOK_DATA="{
 },
 \"orchestrationTask\": {
   \"orchestrationTaskURL\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
-  \"orchestrationTaskName\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
+  \"orchestrationTaskName\": \"$ENV0_ORGANIZATION_ID\$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
   \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
   \"toolId\": \"$TOOL_ID\"
 }
