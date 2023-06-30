@@ -7,7 +7,7 @@ ARTIFACT_NAME="docker-image-name"
 ARTIFACT_REPO="docker-repo-name"
 ARTIFACT_VERSION="dockerImageTag"
 ARTIFACT_SEMANTIC_VERSION=""
-URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/tool/orchestration
+URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/artifact/registration
 
 # https://docs.env0.com/docs/custom-flows#exposed-env0-system-environment-variables All environment variables
 
