@@ -13,7 +13,7 @@ URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/tool/orchestrati
 echo "STEP_NAME : $STEP_NAME , UPSTREAM_STEP_NAME : $UPSTREAM_STEP_NAME , RESULT : $RESULT , TOOL_ID : $TOOL_ID "
 echo "Webhook notification invoked to $URL $URL?toolId=$TOOL_ID "
 
-WEBHOOK_DATA = '{
+WEBHOOK_DATA=we'{
 \"taskExecution\": {
   \"toolId\": \"$TOOL_ID\",
   \"buildNumber\": \"$ENV0_DEPLOYMENT_ID\",
