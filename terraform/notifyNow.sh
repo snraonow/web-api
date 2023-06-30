@@ -26,7 +26,7 @@ WEBHOOK_DATA="{
   \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
   \"pipelineExecutionUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_LOG_ID\",
   \"orchestrationTaskUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
-  \"orchestrationTaskName\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
+  \"orchestrationTaskName\": \"$ENV0_ORGANIZATION_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
   \"result\": \"building\",
   \"startDateTime\": \"$DATE\",
   \"upstreamId\": \"$UPSTREAM_STEP_NAME\"
