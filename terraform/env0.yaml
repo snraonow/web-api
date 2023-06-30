@@ -7,8 +7,8 @@ deploy:
         - name: Update ServiceNow
           run: |
             echo "Update ServiceNow"
-            ./notifyNow "Update ServiceNow" "" "building"
-            ./notifyNow "Update ServiceNow" "" "successful"
+            ./notifyNow.sh "Update ServiceNow" "" "building"
+            ./notifyNow.sh "Update ServiceNow" "" "successful"
     terraformPlan:
       before:
         - name: Begin Plan
