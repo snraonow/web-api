@@ -13,29 +13,29 @@ URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/tool/orchestrati
 echo "STEP_NAME : $STEP_NAME , UPSTREAM_STEP_NAME : $UPSTREAM_STEP_NAME , RESULT : $RESULT , TOOL_ID : $TOOL_ID "
 echo "Webhook notification invoked to $URL $URL?toolId=$TOOL_ID "
 
-WEBHOOK_DATA=we'{
-\"taskExecution\": {
-  \"toolId\": \"$TOOL_ID\",
-  \"buildNumber\": \"$ENV0_DEPLOYMENT_ID\",
-  \"nativeId\": \"$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID\",
-  \"name\": \"$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID\",
-  \"id\": \"$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID\",
-  \"url\": \"app.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_ID#$STEP_NAME\",
-  \"isMultiBranch\": \"false\",
-  \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
-  \"pipelineExecutionUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_ID\",
-  \"orchestrationTaskUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
-  \"orchestrationTaskName\": \"$ENV_NAME#$STEP_NAME\",
-  \"result\": \"$RESULT\",
-  \"startDateTime\": \"$DATE\",
-  \"upstreamId\": \"$ENV_NAME#$UPSTREAM_STEP_NAME\"
-},
-\"orchestrationTask\": {
-  \"orchestrationTaskURL\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
-  \"orchestrationTaskName\": \"$ENV_NAME#$STEP_NAME\",
-  \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
-  \"toolId\": \"$TOOL_ID\"
-}
+WEBHOOK_DATA='{
+  "taskExecution": {
+    "toolId": "$TOOL_ID",
+    "buildNumber": "$ENV0_DEPLOYMENT_ID",
+    "nativeId": "$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID",
+    "name": "$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID",
+    "id": "$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID",
+    "url": "app.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_ID#$STEP_NAME",
+    "isMultiBranch": "false",
+    "branchName": "$ENV0_DEPLOYMENT_REVISION",
+    "pipelineExecutionUrl": "api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_ID",
+    "orchestrationTaskUrl": "api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME",
+    "orchestrationTaskName": "$ENV_NAME#$STEP_NAME",
+    "result": "$RESULT",
+    "startDateTime": "$DATE",
+    "upstreamId": "$ENV_NAME#$UPSTREAM_STEP_NAME"
+  },
+  "orchestrationTask": {
+    "orchestrationTaskURL": "api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME",
+    "orchestrationTaskName": "$ENV_NAME#$STEP_NAME",
+    "branchName": "$ENV0_DEPLOYMENT_REVISION",
+    "toolId": "$TOOL_ID"
+  }
 }'
 
 
