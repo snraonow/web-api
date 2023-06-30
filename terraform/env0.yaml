@@ -4,31 +4,35 @@ deploy:
   steps:
     setupVariables:
       after:
-        - name: Update ServiceNow
+        - name: setupVariables
           run: |
-            echo "Update ServiceNow"
-            ./notifyNow.sh "Update ServiceNow" "" "building"
-            ./notifyNow.sh "Update ServiceNow" "" "successful"
+            echo "setupVariables"
+            ./notifyNow.sh "setupVariables" "" "building"
+            ./notifyNow.sh "setupVariables" "" "successful"
     terraformPlan:
       before:
         - name: Begin Plan
           run: |
-            echo "Begin Plan"
+            echo "Begin terraformPlan"
+            ./notifyNow.sh "terraformPlan" "setupVariables" "building"
       after:
         - name: Begin Security Scan
           run: |
             # simulate a scan
             sleep 10  
-            echo "Begin Security Scan"
+            echo "End terraformPlan"
+            ./notifyNow.sh "terraformPlan" "setupVariables" "successful"
     terraformApply:
       before:
-        - name: Begin Apply
+        - name: Begin terraformApply
           run: |
-            echo "Begin Apply"
+            echo "Begin terraformApply"
+            ./notifyNow.sh "terraformApply" "terraformPlan" "building"
       after:
-        - name: Finish Apply 
+        - name: Finish terraformApply 
           run: |
-            echo "Finish Apply"
+            echo "Finish terraformApply"
+            ./notifyNow.sh "terraformApply" "terraformPlan" "successful"
 
 
     # "name": "git:clone",
