@@ -16,17 +16,17 @@ deploy:
         - name: Begin Security Scan
           run: |
             # simulate a scan
-            sleep 30  
+            sleep 10  
             echo "Begin Security Scan"
     terraformApply:
       before:
         - name: Begin Apply
           run: |
-            "Begin Apply"
+            echo "Begin Apply"
       after:
         - name: Finish Apply 
           run: |
-            "Finish Apply"
+            echo "Finish Apply"
 
 
     # "name": "git:clone",
