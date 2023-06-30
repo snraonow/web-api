@@ -3,11 +3,6 @@ version: 2
 deploy:
   steps:
     setupVariables:
-      before:
-        - name: Update ServiceNow
-          run: |
-            echo "Update ServiceNow"
-            ./notifyNow "Update ServiceNow" "" "beginbuilding"
       after:
         - name: Update ServiceNow
           run: |
