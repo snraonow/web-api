@@ -15,7 +15,7 @@ echo "Webhook notification invoked to $URL $URL?toolId=$TOOL_ID "
 
 WEBHOOK_DATA='{
   "taskExecution": {
-    "toolId": "$TOOL_ID",
+    "toolId": "${TOOL_ID}",
     "buildNumber": "$ENV0_DEPLOYMENT_ID",
     "nativeId": "$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID",
     "name": "$ENV_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_ID",
