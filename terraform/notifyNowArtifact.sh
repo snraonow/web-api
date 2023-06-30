@@ -22,7 +22,7 @@ ARTIFACT_DATA="{
         {
             \"name\": \"$ARTIFACT_NAME\",
             \"repositoryName\": \"$ARTIFACT_REPO\",
-            \"semanticVersion\": \"$ARTIFACT_SEMANTIC_VERSION",
+            \"semanticVersion\": \"$ARTIFACT_SEMANTIC_VERSION\",
             \"version\": \"$ARTIFACT_VERSION\"
         }
     ]
