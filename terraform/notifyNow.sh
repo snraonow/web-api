@@ -29,7 +29,7 @@ WEBHOOK_DATA="{
   \"orchestrationTaskName\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
   \"result\": \"building\",
   \"startDateTime\": \"$DATE\",
-  \"upstreamId\": \"$ENV0_ENVIRONMENT_NAME#$UPSTREAM_STEP_NAME\"
+  \"upstreamId\": \"$UPSTREAM_STEP_NAME\"
 },
 \"orchestrationTask\": {
   \"orchestrationTaskURL\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
