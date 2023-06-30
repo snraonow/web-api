@@ -9,6 +9,7 @@ deploy:
             echo "setupVariables"
             ./notifyNow.sh "setupVariables" "" "building"
             ./notifyNow.sh "setupVariables" "" "successful"
+            ./notifyNowArtifact.sh "setupVariables"
     terraformPlan:
       before:
         - name: Begin Plan
