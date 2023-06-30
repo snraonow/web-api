@@ -10,7 +10,10 @@ URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/tool/orchestrati
 #URL=https://webhook.site/eb4a87b3-6006-4d14-ba01-44c447927db8
 #app.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_ID#$UPSTREAM_STEP_NAME\
 
-curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?toolId=$TOOL_ID -d "{
+echo "STEP_NAME : $STEP_NAME , UPSTREAM_STEP_NAME : $UPSTREAM_STEP_NAME , RESULT : $RESULT , TOOL_ID : $TOOL_ID "
+echo "Webhook notification invoked to $URL $URL?toolId=$TOOL_ID "
+
+WEBHOOK_DATA = '{
 \"taskExecution\": {
   \"toolId\": \"$TOOL_ID\",
   \"buildNumber\": \"$ENV0_DEPLOYMENT_ID\",
@@ -33,5 +36,10 @@ curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?t
   \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
   \"toolId\": \"$TOOL_ID\"
 }
-}"
+}'
+
+
+echo "Webhook Data $WEBHOOK_DATA" 
+
+curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?toolId=$TOOL_ID -d "$WEBHOOK_DATA"
 
