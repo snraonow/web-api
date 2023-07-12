@@ -25,7 +25,7 @@ fi
 CHANGE_CONTROL="{
     \"toolId\": \"$TOOL_ID\",
     \"callbackURL\": \"$PIPELINE_URL/$STEP_NAME/#$ENV0_DEPLOYMENT_LOG_ID\",
-    \"orchestrationTaskUrl\": \"$PIPELINE_URL/$STEP_NAME/\",
+    \"orchestrationTaskURL\": \"$PIPELINE_URL/$STEP_NAME/\",
     \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
     \"orchestrationTaskDetails\": {
         \"message\" : \"ENV0 Change Creation\",
