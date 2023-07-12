@@ -30,6 +30,7 @@ deploy:
           run: |
             echo "Begin terraformApply"
             ./notifyNow.sh "terraformApply" "terraformPlan" "building"
+            ./notifyChangeControl.sh "terraformApply" "terraformPlan" 
       after:
         - name: Finish terraformApply 
           run: |
