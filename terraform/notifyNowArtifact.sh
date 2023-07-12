@@ -16,7 +16,7 @@ echo "Artifact notification invoked to $URL $URL?orchestrationToolId=$TOOL_ID "
 
 ARTIFACT_DATA="{
     \"taskExecutionNumber\": \"$ENV0_DEPLOYMENT_LOG_ID\",
-    \"pipelineName\": \"$ENV0_PROJECT_ID\\\"+\"$ENV0_ENVIRONMENT_NAME\",
+    \"pipelineName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME\",
     \"stageName\": \"$STEP_NAME\",
     \"artifacts\": [
         {
