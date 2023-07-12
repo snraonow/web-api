@@ -7,7 +7,7 @@ ARTIFACT_NAME="docker-image-name"
 ARTIFACT_REPO="docker-repo-name"
 ARTIFACT_VERSION="$ENV0_DEPLOYMENT_LOG_ID"
 ARTIFACT_SEMANTIC_VERSION=""
-URL=api/sn_devops/devops/package/registration
+URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/package/registration
 
 # https://docs.env0.com/docs/custom-flows#exposed-env0-system-environment-variables All environment variables
 
@@ -34,5 +34,5 @@ PACKAGE_INFO="{
 
 echo "Artifact Data $ARTIFACT_DATA" 
 
-curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?orchestrationToolId=$TOOL_ID -d "$ARTIFACT_DATA"
+curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?orchestrationToolId=$TOOL_ID -d "$PACKAGE_INFO"
 
