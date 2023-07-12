@@ -27,30 +27,30 @@ fi
 
 
 WEBHOOK_DATA="{
-\"taskExecution\": {
-  \"toolId\": \"$TOOL_ID\",
-  \"buildNumber\": \"$ENV0_DEPLOYMENT_LOG_ID\",
-  \"nativeId\": \"$ENV0_DEPLOYMENT_LOG_ID\",
-  \"name\": \"$STEP_NAME#$ENV0_DEPLOYMENT_LOG_ID\",
-  \"id\": \"$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"url\": \"$PIPELINE_URL/$STEP_NAME/#$ENV0_DEPLOYMENT_LOG_ID\",
-  \"isMultiBranch\": \"false\",
-  \"branchName\": \"main\",
-  \"pipelineExecutionUrl\": \"$PIPELINE_URL$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"orchestrationTaskUrl\": \"$PIPELINE_URL/$STEP_NAME/\",
-  \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
-  \"result\": \"$RESULT\",
-  \"startDateTime\": \"$DATE\",
-  \"endDateTime\":\"$DATE\",
-  \"upstreamId\": \"$UPSTREAM_ID\",
-  \"upstreamTaskUrl\": \"$UPSTREAM_TASK_URL\"
-},
-\"orchestrationTask\": {
-  \"orchestrationTaskURL\": \"$PIPELINE_URL/$STEP_NAME/\",
-  \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
-  \"branchName\": \"main\",
-  \"toolId\": \"$TOOL_ID\"
-}
+  \"taskExecution\": {
+    \"toolId\": \"$TOOL_ID\",
+    \"buildNumber\": \"$ENV0_DEPLOYMENT_LOG_ID\",
+    \"nativeId\": \"$ENV0_DEPLOYMENT_LOG_ID\",
+    \"name\": \"$STEP_NAME#$ENV0_DEPLOYMENT_LOG_ID\",
+    \"id\": \"$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
+    \"url\": \"$PIPELINE_URL/$STEP_NAME/#$ENV0_DEPLOYMENT_LOG_ID\",
+    \"isMultiBranch\": \"false\",
+    \"branchName\": \"main\",
+    \"pipelineExecutionUrl\": \"$PIPELINE_URL$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
+    \"orchestrationTaskUrl\": \"$PIPELINE_URL/$STEP_NAME/\",
+    \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
+    \"result\": \"$RESULT\",
+    \"startDateTime\": \"$DATE\",
+    \"endDateTime\":\"$DATE\",
+    \"upstreamId\": \"$UPSTREAM_ID\",
+    \"upstreamTaskUrl\": \"$UPSTREAM_TASK_URL\"
+  },
+  \"orchestrationTask\": {
+    \"orchestrationTaskURL\": \"$PIPELINE_URL/$STEP_NAME/\",
+    \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
+    \"branchName\": \"main\",
+    \"toolId\": \"$TOOL_ID\"
+  }
 }"
 
 
