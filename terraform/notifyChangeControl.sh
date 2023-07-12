@@ -3,12 +3,13 @@
 STEP_NAME=$1
 UPSTREAM_STEP_NAME=$2
 DATE=$(date +%Y-%m-%d" "%H:%M:%S)
-URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/orchestration/changeControl/
+URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/orchestration/changeControl
 
 # https://docs.env0.com/docs/custom-flows#exposed-env0-system-environment-variables All environment variables
 
 echo "STEP_NAME : $STEP_NAME ,  , TOOL_ID : $TOOL_ID "
-echo "Package Registration invoked to $URL?toolId=$TOOL_ID "
+
+echo "Change control invoked to $URL?toolId=$TOOL_ID "
 PIPELINE_URL=api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID
 
 if [[ -z "$UPSTREAM_STEP_NAME" ]]; then
@@ -38,23 +39,6 @@ CHANGE_CONTROL="{
     }    
 }"
 
-echo "Artifact Data $ARTIFACT_DATA" 
+echo "Change Control Data $CHANGE_CONTROL" 
 
 curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?toolId=$TOOL_ID -d "$CHANGE_CONTROL"
-
-{
-    "toolId": pipeline.tool.sys_id,
-    "callbackURL": "unique call back url",
-    "orchestrationTaskURL": pipeline.pipeline_url + "/" + stage.name + "/",
-    "orchestrationTaskName": pipeline.orch_pipeline + "#" + stage.name,
-    "orchestrationTaskDetails": {
-        "message": "task message",
-        "triggerType": "upstream",
-        "taskExecutionURL": pipeline.pipeline_url + "/" + stage.name + "/#" + pipeline.buildNumber,
-        "orchestrationTaskURL": pipeline.pipeline_url + "/" + stage.name + "/",
-        "orchestrationTaskName": pipeline.orch_pipeline + "#" + stage.name,
-        "branchName": "main",
-        "upstreamTaskExecutionURL": pipeline.pipeline_url + "/" + previousStage.name + "/#" + pipeline.buildNumber ,
-        "toolId": pipeline.tool.sys_id,
-    }
-}

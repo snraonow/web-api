@@ -12,7 +12,7 @@ URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/package/registra
 # https://docs.env0.com/docs/custom-flows#exposed-env0-system-environment-variables All environment variables
 
 echo "STEP_NAME : $STEP_NAME ,  , TOOL_ID : $TOOL_ID "
-echo "Package Registration invoked to $URL?orchestrationToolId=$TOOL_ID "
+echo "Chanage Control invoked to $URL?orchestrationToolId=$TOOL_ID "
 
 PACKAGE_INFO="{
     \"name\": \"$ARTIFACT_NAME\",
@@ -32,7 +32,7 @@ PACKAGE_INFO="{
     ]
 }"
 
-echo "Artifact Data $ARTIFACT_DATA" 
+echo "Package Info $PACKAGE_INFO" 
 
 curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$PASSWORD" $URL?orchestrationToolId=$TOOL_ID -d "$PACKAGE_INFO"
 
