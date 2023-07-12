@@ -23,8 +23,6 @@ else
   UPSTREAM_TASK_URL=api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$UPSTREAM_STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID
 fi
 
-UPSTREAM_ID= 
-
 WEBHOOK_DATA="{
 \"taskExecution\": {
   \"toolId\": \"$TOOL_ID\",
