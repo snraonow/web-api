@@ -46,7 +46,7 @@ WEBHOOK_DATA="{
   \"upstreamTaskUrl\": \"$UPSTREAM_TASK_URL\"
 },
 \"orchestrationTask\": {
-  \"orchestrationTaskURL\": \"$PIPELINE_URL/$STEP_NAME/\",,
+  \"orchestrationTaskURL\": \"$PIPELINE_URL/$STEP_NAME/\",
   \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
   \"branchName\": \"main\",
   \"toolId\": \"$TOOL_ID\"
