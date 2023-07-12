@@ -30,7 +30,7 @@ WEBHOOK_DATA="{
   \"nativeId\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
   \"name\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
   \"id\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"url\": \"app.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/deployments/$ENV0_DEPLOYMENT_LOG_ID#$STEP_NAME\",
+  \"url\": \"app.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID#$STEP_NAME\",
   \"isMultiBranch\": \"false\",
   \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
   \"pipelineExecutionUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID\",
