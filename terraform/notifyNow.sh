@@ -14,27 +14,30 @@ URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/tool/orchestrati
 echo "STEP_NAME : $STEP_NAME , UPSTREAM_STEP_NAME : $UPSTREAM_STEP_NAME , RESULT : $RESULT , TOOL_ID : $TOOL_ID "
 echo "Webhook notification invoked to $URL $URL?toolId=$TOOL_ID "
 
+PIPELINE_URL=api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID
+
 if [[ -z "$UPSTREAM_STEP_NAME" ]]; then
    # $var is empty, do what you want
    UPSTREAM_ID=''
    UPSTREAM_TASK_URL=''
 else
-  UPSTREAM_ID=$ENV0_ENVIRONMENT_NAME#$UPSTREAM_STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID
-  UPSTREAM_TASK_URL=api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$UPSTREAM_STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID
+  UPSTREAM_ID=$UPSTREAM_STEP_NAME#$ENV0_DEPLOYMENT_LOG_ID
+  UPSTREAM_TASK_URL=$PIPELINE_URL/$UPSTREAM_STEP_NAME/#$ENV0_DEPLOYMENT_LOG_ID
 fi
+
 
 WEBHOOK_DATA="{
 \"taskExecution\": {
   \"toolId\": \"$TOOL_ID\",
   \"buildNumber\": \"$ENV0_DEPLOYMENT_LOG_ID\",
-  \"nativeId\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"name\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"id\": \"$ENV0_ENVIRONMENT_NAME#$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"url\": \"app.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID#$STEP_NAME\",
+  \"nativeId\": \"$ENV0_DEPLOYMENT_LOG_ID\",
+  \"name\": \"$STEP_NAME#$ENV0_DEPLOYMENT_LOG_ID\",
+  \"id\": \"$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
+  \"url\": \"$PIPELINE_URL/$STEP_NAME/#$ENV0_DEPLOYMENT_LOG_ID\",
   \"isMultiBranch\": \"false\",
-  \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
-  \"pipelineExecutionUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID\",
-  \"orchestrationTaskUrl\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
+  \"branchName\": \"main\",
+  \"pipelineExecutionUrl\": \"$PIPELINE_URL$STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\",
+  \"orchestrationTaskUrl\": \"$PIPELINE_URL/$STEP_NAME/\",
   \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
   \"result\": \"$RESULT\",
   \"startDateTime\": \"$DATE\",
@@ -43,9 +46,9 @@ WEBHOOK_DATA="{
   \"upstreamTaskUrl\": \"$UPSTREAM_TASK_URL\"
 },
 \"orchestrationTask\": {
-  \"orchestrationTaskURL\": \"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$STEP_NAME\",
+  \"orchestrationTaskURL\": \"$PIPELINE_URL/$STEP_NAME/\",,
   \"orchestrationTaskName\": \"$ENV0_PROJECT_ID/$ENV0_ENVIRONMENT_NAME#$STEP_NAME\",
-  \"branchName\": \"$ENV0_DEPLOYMENT_REVISION\",
+  \"branchName\": \"main\",
   \"toolId\": \"$TOOL_ID\"
 }
 }"
