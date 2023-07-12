@@ -16,8 +16,8 @@ echo "Webhook notification invoked to $URL $URL?toolId=$TOOL_ID "
 
 if [[ -z "$UPSTREAM_STEP_NAME" ]]; then
    # $var is empty, do what you want
-   UPSTREAM_ID=''
-   UPSTREAM_TASK_URL=''
+   UPSTREAM_ID=\"\"
+   UPSTREAM_TASK_URL=\"\"
 else
   UPSTREAM_ID=\"$ENV0_ENVIRONMENT_NAME#$UPSTREAM_STEP_NAME/$ENV0_DEPLOYMENT_LOG_ID\"
   UPSTREAM_TASK_URL=\"api.env0.com/p/$ENV0_PROJECT_ID/environments/$ENV0_ENVIRONMENT_ID/$UPSTREAM_STEP_NAME/deployments/$ENV0_DEPLOYMENT_LOG_ID\"
