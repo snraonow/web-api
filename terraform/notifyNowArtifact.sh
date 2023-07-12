@@ -5,7 +5,7 @@ STEP_NAME=$1
 DATE=$(date +%Y-%m-%d" "%H:%M:%S)
 ARTIFACT_NAME="docker-image-name"
 ARTIFACT_REPO="docker-repo-name"
-ARTIFACT_VERSION="dockerImageTag"
+ARTIFACT_VERSION="$ENV0_DEPLOYMENT_LOG_ID"
 ARTIFACT_SEMANTIC_VERSION=""
 URL=https://$INSTANCE_NAME.service-now.com/api/sn_devops/devops/artifact/registration
 
@@ -16,7 +16,7 @@ echo "Artifact notification invoked to $URL $URL?orchestrationToolId=$TOOL_ID "
 
 ARTIFACT_DATA="{
     \"taskExecutionNumber\": \"$ENV0_DEPLOYMENT_LOG_ID\",
-    \"pipelineName\": \"$ENV0_PROJECT_NAME\",
+    \"pipelineName\": \"$ENV0_PROJECT_ID\\\"+\"$ENV0_ENVIRONMENT_NAME\",
     \"stageName\": \"$STEP_NAME\",
     \"artifacts\": [
         {
@@ -27,7 +27,6 @@ ARTIFACT_DATA="{
         }
     ]
 }"
-
 
 echo "Artifact Data $ARTIFACT_DATA" 
 
