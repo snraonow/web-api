@@ -1,6 +1,6 @@
 # Web API
 
-Sample project for prototype
+Sample project for prototype for DevOps Integration
 
 ## Build
 
