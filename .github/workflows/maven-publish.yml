@@ -33,6 +33,10 @@ jobs:
     needs: Build-repo
     runs-on: ubuntu-latest
     steps: 
+      - name: Test 
+        env: 
+          EMPSNRAO_TOKEN : ${{ secrets.EMPSNRAO_TOKEN }}
+      - run: echo "🎉 The job was automatically triggered by a $EMPSNRAO_TOKEN event"          
       - name: ServiceNow DevOps Change Automation
         env: 
           EMPSNRAO_TOKEN : ${{ secrets.EMPSNRAO_TOKEN }}
