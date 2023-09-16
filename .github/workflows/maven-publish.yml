@@ -33,11 +33,13 @@ jobs:
     needs: Build-repo
     runs-on: ubuntu-latest
     steps: 
-      - name: List files in the repository
+      - name: Show credentials passing correctly
         env: 
           EMPSNRAO_TOKEN : ${{ secrets.EMPSNRAO_TOKEN }}
         run: |
-          echo $EMPSNRAO_TOKEN
+          echo " employee token password $EMPSNRAO_TOKEN"
+          printenv
+          env
       - name: ServiceNow DevOps Change Automation
         # You may pin to the exact commit or the version.
         # uses: ServiceNow/servicenow-devops-change@41fd6520fa5369e3098596eadec108fc809c37f8
