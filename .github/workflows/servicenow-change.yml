@@ -1,0 +1,43 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Maven Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  ServiceNow-Change-Management:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Show credentials passing correctly
+        env: 
+          EMPSNRAO1TOOLTOKEN : ${{ secrets.EMPSNRAO1TOOLTOKEN }}
+        run: |
+          echo " employee token password $EMPSNRAO1TOOLTOKEN"
+          printenv
+          env
+      - name: ServiceNow DevOps Change Automation
+        # You may pin to the exact commit or the version.
+        # uses: ServiceNow/servicenow-devops-change@41fd6520fa5369e3098596eadec108fc809c37f8
+        uses: ServiceNow/servicenow-devops-change@v2.0.0
+        with:
+          # ServiceNow Instance URL
+          instance-url: "https://empsnrao1.service-now.com/"
+          # Devops Integration User Name
+          devops-integration-token:  ${{ secrets.EMPSNRAO1TOOLTOKEN }}
+          # Orchestration Tool Id
+          tool-id: "6b40e871c31539104395388f050131e1"
+          # Display Name of the Job
+          job-name: ServiceNow-Change-Management
+          # Github Context
+          context-github: ${{ toJSON(github) }}
+          # The max. time in seconds to wait until the action should fail.
+          change-request: '{"setCloseCode":"true","attributes":{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}}'
+          # The max. time in seconds to wait until change created.
+          interval: '100'
+          timeout: '3600'
+          changeCreationTimeOut: '3600'
+          abortOnChangeStepTimeout: true  
