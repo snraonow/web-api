@@ -23,6 +23,11 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - shell: bash
+        env:
+          EMPSNRAO1TOOLTOKEN : ${{ secrets.EMPSNRAO1TOOLTOKEN }}
+        run: |
+          echo "$EMPSNRAO1TOOLTOKEN"
   Build-repo:
     needs: Explore-GitHub-Actions
     runs-on: ubuntu-latest
@@ -35,9 +40,9 @@ jobs:
     steps: 
       - name: Show credentials passing correctly
         env: 
-          EMPSNRAO_TOKEN : ${{ secrets.EMPSNRAO_TOKEN }}
+          EMPSNRAO1TOOLTOKEN : ${{ secrets.EMPSNRAO1TOOLTOKEN }}
         run: |
-          echo " employee token password $EMPSNRAO_TOKEN"
+          echo " employee token password $EMPSNRAO1TOOLTOKEN"
           printenv
           env
       - name: ServiceNow DevOps Change Automation
