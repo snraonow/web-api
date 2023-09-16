@@ -34,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: ServiceNow DevOps Change Automation
+        env: 
+          EMPSNRAO_TOKEN : ${{ secrets.EMPSNRAO_TOKEN }}
         # You may pin to the exact commit or the version.
         # uses: ServiceNow/servicenow-devops-change@41fd6520fa5369e3098596eadec108fc809c37f8
         uses: ServiceNow/servicenow-devops-change@v2.0.0
@@ -41,7 +43,7 @@ jobs:
           # ServiceNow Instance URL
           instance-url: "https://empsnrao1.service-now.com/"
           # Devops Integration User Name
-          devops-integration-token: "ZxSVjKbCTQT1FrgCyRTwYzVd6yRBQ4II"
+          devops-integration-token: "$EMPSNRAO_TOKEN"
           # Orchestration Tool Id
           tool-id: "6b40e871c31539104395388f050131e1"
           # Display Name of the Job
