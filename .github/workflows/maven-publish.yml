@@ -24,7 +24,31 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
   Build-repo:
+    needs: Explore-GitHub-Actions
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 Building the project"
+  ServiceNow-Change-Management:
+    needs: Build-repo
+    runs-on: ubuntu-latest
+    steps: 
+      - name: ServiceNow DevOps Change Automation
+        # You may pin to the exact commit or the version.
+        # uses: ServiceNow/servicenow-devops-change@41fd6520fa5369e3098596eadec108fc809c37f8
+        uses: ServiceNow/servicenow-devops-change@v2.0.0
+        with:
+          # ServiceNow Instance URL
+          instance-url: "https://empsnrao1.service-now.com/"
+          # Devops Integration User Name
+          devops-integration-token: "ZxSVjKbCTQT1FrgCyRTwYzVd6yRBQ4II"
+          # Orchestration Tool Id
+          tool-id: "6b40e871c31539104395388f050131e1"
+          # Display Name of the Job
+          job-name: ServiceNow-Change-Management
+          # Github Context
+          context-github: 36000
+          # The max. time in seconds to wait until the action should fail.
+          change-request: 30000
+          # The max. time in seconds to wait until change created.
+  
