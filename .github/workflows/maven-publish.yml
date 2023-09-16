@@ -53,7 +53,7 @@ jobs:
           # ServiceNow Instance URL
           instance-url: "https://empsnrao1.service-now.com/"
           # Devops Integration User Name
-          devops-integration-token:  ${{ secrets.EMPSNRAO_TOKEN }}
+          devops-integration-token:  ${{ secrets.EMPSNRAO1TOOLTOKEN }}
           # Orchestration Tool Id
           tool-id: "6b40e871c31539104395388f050131e1"
           # Display Name of the Job
