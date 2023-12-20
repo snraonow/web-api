@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_sannrao_web_api_1703043093222-push-trigger-input-set
+  identifier: Build_sannrao_web_api_1703043093222pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_sannrao_web_api_1703043093222
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
