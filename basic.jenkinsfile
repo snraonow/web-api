@@ -112,6 +112,21 @@ pipeline {
             }
         }
 
+        stage('Manual Approval Step') {
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Do you want to proceed to deploy?',
+                        parameters: [booleanParam(defaultValue: true, description: '', name: 'Proceed')]
+                    )
+
+                    if (!userInput) {
+                        error 'Deployment aborted by user'
+                    }
+                }
+            }
+        }
+
         // Deploy application code and configuration data to production environment
         stage('Deploy to Production') {
             steps {
@@ -119,6 +134,25 @@ pipeline {
                         echo "********************** Start Deployment ****************"
                         
                         echo "********************** END Deployment ****************"
+                }
+            }
+        }
+
+        stage('Post Deployment Check'){
+            parallel{
+                stage('Santiy Check'){
+                    steps{
+                        script{
+                            echo " Check for API Responses"
+                        }
+                    }
+                }
+                stage('Pod health'){
+                    steps{
+                        script{
+                            echo "Check for Pod health"
+                        }
+                    }
                 }
             }
         }
