@@ -16,7 +16,7 @@ pipeline {
         stage('Initialize') {
             
             steps{    
-                
+
                 echo " Initialization step for the pipeline"
             }
         }
@@ -57,7 +57,7 @@ pipeline {
                         stage('Image Analysis') {
                             steps {
                                 script {
-                                    echo "Snapshot object : ${snapshotObject}"
+                                    echo "Snapshot object analyzer"
                                     echo "Triggering Test"
                                 }
                             }
