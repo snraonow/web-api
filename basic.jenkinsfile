@@ -1,0 +1,125 @@
+/**
+*/
+
+pipeline {
+    environment {
+        buildArtifactsPath = "build_artifacts/${currentBuild.number}"
+        validationResultsPath = ""
+    }
+    agent any
+    /**
+    * Jenkins pipline related variables
+    */
+    stages {
+        // Initialize pipeline
+        stage('Initialize') {
+            
+                echo " Initialization step for the pipeline"
+            }
+        }
+            
+        // Build and publish application image
+        stage('Build') {      
+            steps {
+                checkout scm    
+                echo "scm checkout successful"
+                
+                script {
+                
+                    echo "Building...."
+
+                    //snDevOpsArtifact(artifactsPayload:snDevopsArtifactPayload)
+
+                    echo "Build Successful"
+                }
+            }
+        } 
+            
+        // Validate code and config data
+        stage('Validate') {
+            parallel {
+                // Validate configuration data changes
+                stage('Security') {
+                    stages('Static Code analysis') {
+                        // Upload configuration data to DevOps Config
+                        stage('Upload') {
+                            steps {
+                                script {
+                                 echo "Triggering Test"
+                                }
+                            }
+                        }
+
+                        // Auto-validation was set during upload; get status of snapshot
+                        stage('Image Analysis') {
+                            steps {
+                                script {
+                                    echo "Snapshot object : ${snapshotObject}"
+                                    echo "Triggering Test"
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                // Validate application code changes (SIMULATED)
+                stage('Code') { 
+                    stages {
+                        stage('jUnit Test'){ 
+                            steps {
+                                echo "Running unit tests..."
+                            }
+                        }
+                        
+                        stage('SonarQube analysis') {
+                            steps {
+                                echo "Running code quality analysis..."
+                            }
+                        }
+                    }    
+                }
+            }
+        }
+
+        // Deploy configuration data to UAT environment
+        stage('UAT Deployment') {
+            steps {
+                sleep(time:5,unit:"SECONDS")
+            }
+        }
+        
+        // Run functional tests
+        stage ('Functional Testing') {
+            parallel {      
+                stage('Selenium API') { 
+                    steps {
+                        echo "Selenium API..2..3..4"
+                        sleep(time:5,unit:"SECONDS")
+                        echo "Selenium API..2..3..4"
+                    }
+                }
+                stage('Selenium UI') {
+                    steps {
+                        echo "Selenium UI..2..3..4"
+                        sleep(time:7,unit:"SECONDS")
+                        echo "Selenium API..2..3..4"
+                    }
+                }
+            }
+        }
+
+        // Deploy application code and configuration data to production environment
+        stage('Deploy to Production') {
+                steps {
+                    script {
+                            echo "********************** Start Deployment ****************"
+                            
+                            echo "********************** END Deployment ****************"
+                    }
+                }
+        }
+    }
+
+    
+}
