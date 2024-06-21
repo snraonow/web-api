@@ -2,6 +2,7 @@
 */
 
 pipeline {
+    
     environment {
         buildArtifactsPath = "build_artifacts/${currentBuild.number}"
         validationResultsPath = ""
@@ -16,7 +17,6 @@ pipeline {
             
                 echo " Initialization step for the pipeline"
             }
-        }
             
         // Build and publish application image
         stage('Build') {      
@@ -111,15 +111,14 @@ pipeline {
 
         // Deploy application code and configuration data to production environment
         stage('Deploy to Production') {
-                steps {
-                    script {
-                            echo "********************** Start Deployment ****************"
-                            
-                            echo "********************** END Deployment ****************"
-                    }
+            steps {
+                script {
+                        echo "********************** Start Deployment ****************"
+                        
+                        echo "********************** END Deployment ****************"
                 }
+            }
         }
     }
-
-    
 }
+
