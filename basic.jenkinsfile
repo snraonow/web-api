@@ -15,8 +15,11 @@ pipeline {
         // Initialize pipeline
         stage('Initialize') {
             
+            steps{    
+                
                 echo " Initialization step for the pipeline"
             }
+        }
             
         // Build and publish application image
         stage('Build') {      
