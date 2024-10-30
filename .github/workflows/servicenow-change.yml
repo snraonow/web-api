@@ -14,7 +14,7 @@ jobs:
     steps: 
       - name: curl
         run: |
-          curl -X POST 'https://amexitsmdev5.service-now.com/api/sn_devops/v2/devops/orchestration/changeControl?toolId=1223c71587999250c8d18519cebb3501' \
+          curl -vX POST 'https://amexitsmdev5.service-now.com/api/sn_devops/v2/devops/orchestration/changeControl?toolId=1223c71587999250c8d18519cebb3501' \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
             --header 'Authorization: sn_devops.DevOpsToken 1223c71587999250c8d18519cebb3501:bGrj5GBdDLr6UOefeujhm9JzJ2Y7Q5JZ' \
